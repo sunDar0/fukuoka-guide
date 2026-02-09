@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>후쿠오카 인터랙티브 여행 가이드</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">📋 여행 플래너</a>
+            </div>
+            <h1>후쿠오카 인터랙티브 여행 가이드</h1>
+            <div id="filter-container">
+                <button class="filter-btn active" data-filter="전체">전체</button>
+                <button class="filter-btn" data-filter="하카타">하카타</button>
+                <button class="filter-btn" data-filter="텐진/나카스">텐진/나카스</button>
+                <button class="filter-btn" data-filter="다자이후">다자이후</button>
+                <button class="filter-btn" data-filter="후쿠오카 시내">후쿠오카 시내</button>
+                <button class="filter-btn" data-filter="이토시마">이토시마</button>
+                <button class="filter-btn" data-filter="키타큐슈">키타큐슈</button>
+                <button class="filter-btn" data-filter="유후인">유후인</button>
+                <button class="filter-btn" data-filter="벳푸">벳푸</button>
+            </div>
+            <div id="search-container">
+                <input type="text" id="search-input" placeholder="명소 검색...">
+            </div>
+        </div>
+        <div class="content-wrapper">
+            <div id="map"></div>
+            <div id="info-panel">
+                <div class="welcome-message">
+                    <h2>후쿠오카에 오신 것을 환영합니다!</h2>
+                    <p>지도 위의 마커를 클릭하거나 상단의 필터를 이용해 여행지를 탐색해보세요.</p>
+                    <p class="hint">💡 지역별 필터를 클릭하면 해당 지역으로 자동 이동합니다.</p>
+                </div>
+                <div id="info-content" class="hidden"></div>
+            </div>
+        </div>
+    </div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+    <script src="data.js"></script>
+    <script src="map.js"></script>
+</body>
+</html>
