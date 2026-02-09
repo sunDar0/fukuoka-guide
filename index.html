@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>후쿠오카 여행 플래너</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- ===== Header ===== -->
+        <header>
+            <div class="nav-links">
+                <a href="map.html" class="nav-link">🗺️ 인터랙티브 지도</a>
+            </div>
+            <h1>맞춤형 후쿠오카 여행 가이드</h1>
+            <p class="subtitle">기간과 인원을 선택하면 나만의 여행 계획을 만들어 드립니다</p>
+        </header>
+
+        <!-- ===== Hero Section - Input Form ===== -->
+        <section class="hero-section">
+            <div class="input-form">
+                <!-- Date Selection -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="start-date">
+                            <span class="form-label-icon">📅</span> 출발일
+                        </label>
+                        <input type="date" id="start-date" class="date-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="end-date">
+                            <span class="form-label-icon">📅</span> 귀국일
+                        </label>
+                        <input type="date" id="end-date" class="date-input">
+                    </div>
+                </div>
+
+                <!-- Nights Badge & Validation -->
+                <div style="text-align: center;">
+                    <div id="nights-display"></div>
+                    <p id="validation-msg" class="validation-msg" style="color: var(--accent-color); font-size: 0.85rem; margin-top: 4px;"></p>
+                </div>
+
+                <!-- Party Size Selection -->
+                <div style="display: flex; flex-direction: column; gap: 1rem; max-width: 400px; margin: 0 auto; width: 100%;">
+                    <!-- Adults -->
+                    <div class="counter-group">
+                        <label class="counter-label">
+                            <span class="form-label-icon">🧑</span> 성인 (만 12세 이상)
+                        </label>
+                        <div class="counter-controls">
+                            <button type="button" class="counter-btn" id="adults-minus" aria-label="성인 감소">-</button>
+                            <span class="counter-value" id="adults-value">2</span>
+                            <button type="button" class="counter-btn" id="adults-plus" aria-label="성인 증가">+</button>
+                        </div>
+                    </div>
+
+                    <!-- Children -->
+                    <div class="counter-group">
+                        <label class="counter-label">
+                            <span class="form-label-icon">👧</span> 아동 (만 3~11세)
+                        </label>
+                        <div class="counter-controls">
+                            <button type="button" class="counter-btn" id="children-minus" aria-label="아동 감소">-</button>
+                            <span class="counter-value" id="children-value">0</span>
+                            <button type="button" class="counter-btn" id="children-plus" aria-label="아동 증가">+</button>
+                        </div>
+                    </div>
+
+                    <!-- Infants -->
+                    <div class="counter-group">
+                        <label class="counter-label">
+                            <span class="form-label-icon">👶</span> 영유아 (만 0~2세)
+                        </label>
+                        <div class="counter-controls">
+                            <button type="button" class="counter-btn" id="infants-minus" aria-label="영유아 감소">-</button>
+                            <span class="counter-value" id="infants-value">0</span>
+                            <button type="button" class="counter-btn" id="infants-plus" aria-label="영유아 증가">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Generate Button -->
+                <button type="button" id="generate-btn" class="generate-btn" disabled>
+                    나만의 여행 가이드 만들기
+                </button>
+            </div>
+        </section>
+
+        <!-- ===== Generated Guide Container (hidden initially) ===== -->
+        <div id="guide-container" class="hidden">
+
+            <!-- Share / Save Actions -->
+            <div class="guide-actions">
+                <button id="share-btn" class="action-btn share-btn" title="공유 링크 복사">🔗 공유 링크 복사</button>
+                <button id="edit-settings-btn" class="action-btn edit-btn" title="기간/인원 변경">✏️ 설정 변경</button>
+                <button id="reset-btn" class="action-btn reset-btn" title="저장된 데이터 초기화">🗑️ 초기화</button>
+                <span id="share-toast" class="share-toast hidden">링크가 복사되었습니다!</span>
+            </div>
+
+            <!-- Trip Overview -->
+            <section id="overview" class="guide-section">
+                <h2 class="section-title">
+                    <span class="section-title-icon">✈️</span> 여행 개요
+                </h2>
+                <div id="overview-content" class="overview-card"></div>
+            </section>
+
+            <!-- Section Navigation (sticky) -->
+            <nav class="section-nav" id="section-nav">
+                <div class="section-nav-list">
+                    <a href="#info" class="section-nav-link">📋 핵심 정보</a>
+                    <a href="#itinerary" class="section-nav-link">🗓️ 전체 일정</a>
+                    <a href="#budget" class="section-nav-link">💰 예상 경비</a>
+                    <a href="#attractions" class="section-nav-link">📍 주요 명소</a>
+                </div>
+            </nav>
+
+            <!-- Essential Info -->
+            <section id="info" class="guide-section">
+                <h2 class="section-title">
+                    <span class="section-title-icon">📋</span> 핵심 정보
+                </h2>
+                <div id="info-content"></div>
+            </section>
+
+            <!-- Itinerary -->
+            <section id="itinerary" class="guide-section">
+                <h2 class="section-title">
+                    <span class="section-title-icon">🗓️</span> 전체 일정
+                </h2>
+                <div id="day-nav" class="day-nav-container"></div>
+                <div id="itinerary-content"></div>
+            </section>
+
+            <!-- Budget Calculator -->
+            <section id="budget" class="guide-section">
+                <h2 class="section-title">
+                    <span class="section-title-icon">💰</span> 예상 경비
+                </h2>
+                <div id="budget-content"></div>
+            </section>
+
+            <!-- Attractions -->
+            <section id="attractions" class="guide-section">
+                <h2 class="section-title">
+                    <span class="section-title-icon">📍</span> 주요 명소
+                </h2>
+                <div id="attractions-content"></div>
+            </section>
+        </div>
+
+        <!-- ===== Footer ===== -->
+        <footer style="text-align: center; padding: 2rem 0; margin-top: 2rem; color: var(--text-muted); font-size: 0.9rem;">
+            <p>이 페이지는 후쿠오카 여행 계획을 위한 인터랙티브 웹 애플리케이션입니다.</p>
+            <p style="margin-top: 0.5rem;">&copy; 2026 Interactive Fukuoka Trip Planner.</p>
+        </footer>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="planner.js"></script>
+</body>
+</html>
