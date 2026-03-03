@@ -9,6 +9,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#f97316">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="icon-192.svg">
 </head>
 <body>
     <div class="container">
@@ -118,6 +123,9 @@
                     <a href="#itinerary" class="section-nav-link">🗓️ 전체 일정</a>
                     <a href="#budget" class="section-nav-link">💰 예상 경비</a>
                     <a href="#attractions" class="section-nav-link">📍 주요 명소</a>
+                    <a href="#food-guide" class="section-nav-link">🍜 맛집</a>
+                    <a href="#transport-guide" class="section-nav-link">🚃 교통</a>
+                    <a href="#accommodation-guide" class="section-nav-link">🏨 숙소</a>
                 </div>
             </nav>
 
@@ -153,6 +161,30 @@
                 </h2>
                 <div id="attractions-content"></div>
             </section>
+
+            <!-- Food Guide -->
+            <section id="food-guide" class="guide-section">
+                <h2 class="section-title">
+                    <span class="section-title-icon">🍜</span> 맛집 가이드
+                </h2>
+                <div id="food-guide-content"></div>
+            </section>
+
+            <!-- Transport Guide -->
+            <section id="transport-guide" class="guide-section">
+                <h2 class="section-title">
+                    <span class="section-title-icon">🚃</span> 교통 가이드
+                </h2>
+                <div id="transport-guide-content"></div>
+            </section>
+
+            <!-- Accommodation Guide -->
+            <section id="accommodation-guide" class="guide-section">
+                <h2 class="section-title">
+                    <span class="section-title-icon">🏨</span> 숙소 가이드
+                </h2>
+                <div id="accommodation-guide-content"></div>
+            </section>
         </div>
 
         <!-- ===== Footer ===== -->
@@ -164,5 +196,10 @@
 
     <script src="data.js"></script>
     <script src="planner.js"></script>
+    <script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js');
+}
+</script>
 </body>
 </html>

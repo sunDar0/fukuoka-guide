@@ -813,6 +813,9 @@
         renderItinerary(startDate, template, nights, infants);
         renderBudget(nights, adults, children, infants);
         renderAttractions();
+        renderFoodGuide();
+        renderTransportGuide(nights);
+        renderAccommodationGuide();
         setupSectionNav();
     }
 
@@ -1270,8 +1273,10 @@
                 if (desc.length > 80) desc = desc.substring(0, 80) + '...';
                 var cat = a.region || a.category || '';
                 var admission = a.admission || '무료';
+                var imgSrc = a.imageQuery ? 'https://source.unsplash.com/featured/400x150/?' + encodeURIComponent(a.imageQuery) : '';
                 html +=
                     '<div class="attraction-card">' +
+                        (imgSrc ? '<img src="' + imgSrc + '" alt="' + a.name + '" class="attraction-card-image" loading="lazy" onerror="this.style.display=\'none\'">' : '') +
                         '<div class="attraction-card-header">' +
                             '<span class="attraction-card-icon">📍</span>' +
                             '<span class="attraction-card-title">' + a.name + '</span>' +
@@ -1325,11 +1330,252 @@
     }
 
     // ============================
+    // RENDER: Food Guide
+    // ============================
+    function renderFoodGuide() {
+        var container = document.getElementById('food-guide-content');
+        if (!container) return;
+
+        var rests = (typeof window.restaurants !== 'undefined' && Array.isArray(window.restaurants)) ? window.restaurants : null;
+        if (!rests || rests.length === 0) {
+            container.innerHTML = '<p style="color: var(--text-muted);">맛집 데이터를 불러오는 중...</p>';
+            return;
+        }
+
+        // Get unique categories
+        var categories = ['전체'];
+        rests.forEach(function(r) {
+            if (categories.indexOf(r.category) === -1) categories.push(r.category);
+        });
+
+        var html = '<div class="restaurant-filters" id="restaurant-filters">';
+        categories.forEach(function(cat, idx) {
+            html += '<button class="restaurant-filter-btn' + (idx === 0 ? ' active' : '') + '" data-category="' + cat + '">' + cat + '</button>';
+        });
+        html += '</div>';
+
+        html += '<div class="restaurants-grid" id="restaurants-grid">';
+        rests.forEach(function(r) {
+            var desc = r.description || '';
+            if (desc.length > 100) desc = desc.substring(0, 100) + '...';
+            var imgSrc = r.imageQuery ? 'https://source.unsplash.com/featured/400x200/?' + encodeURIComponent(r.imageQuery) : '';
+
+            html +=
+                '<div class="restaurant-card" data-category="' + r.category + '" data-region="' + r.region + '">' +
+                    (imgSrc ? '<img src="' + imgSrc + '" alt="' + r.name + '" class="attraction-card-image" loading="lazy" onerror="this.style.display=\'none\'">' : '') +
+                    '<div class="restaurant-card-header">' +
+                        '<span class="restaurant-card-category">' + r.category + '</span>' +
+                        '<span class="restaurant-card-name">' + r.name + '</span>' +
+                    '</div>' +
+                    '<p class="restaurant-card-description">' + desc + '</p>' +
+                    '<div class="restaurant-card-must-try">⭐ ' + r.mustTry + '</div>' +
+                    '<div class="restaurant-card-meta">' +
+                        '<span>⏰ ' + r.hours + '</span>' +
+                        '<span>💴 ' + r.priceRange + '</span>' +
+                        '<span>📍 ' + r.region + '</span>' +
+                    '</div>' +
+                '</div>';
+        });
+        html += '</div>';
+
+        container.innerHTML = html;
+
+        // Filter click handler
+        document.querySelectorAll('.restaurant-filter-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.restaurant-filter-btn').forEach(function(b) { b.classList.remove('active'); });
+                this.classList.add('active');
+                var cat = this.getAttribute('data-category');
+                document.querySelectorAll('.restaurant-card').forEach(function(card) {
+                    if (cat === '전체' || card.getAttribute('data-category') === cat) {
+                        card.style.display = '';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    }
+
+    // ============================
+    // RENDER: Transport Guide
+    // ============================
+    function renderTransportGuide(nights) {
+        var container = document.getElementById('transport-guide-content');
+        if (!container) return;
+
+        var tg = (typeof window.transportGuide !== 'undefined') ? window.transportGuide : null;
+        if (!tg) {
+            container.innerHTML = '<p style="color: var(--text-muted);">교통 데이터를 불러오는 중...</p>';
+            return;
+        }
+
+        var html = '';
+
+        // Airport Access
+        if (tg.airportAccess) {
+            html += '<div class="transport-section-group">';
+            html += '<h3 class="transport-section-title">✈️ 공항 → 시내 교통</h3>';
+            html += '<table class="transport-table"><thead><tr><th>교통수단</th><th>목적지</th><th>소요시간</th><th>비용</th><th>배차간격</th></tr></thead><tbody>';
+            tg.airportAccess.forEach(function(a) {
+                html += '<tr>' +
+                    '<td><strong>' + a.method + '</strong></td>' +
+                    '<td>' + a.destination + '</td>' +
+                    '<td class="highlight-cell">' + a.duration + '</td>' +
+                    '<td class="highlight-cell">' + a.cost + '</td>' +
+                    '<td>' + (a.frequency || '-') + '</td>' +
+                '</tr>';
+            });
+            html += '</tbody></table>';
+            if (tg.airportAccess[0] && tg.airportAccess[0].tip) {
+                html += '<div class="transport-tip">💡 ' + tg.airportAccess[0].tip + '</div>';
+            }
+            html += '</div>';
+        }
+
+        // Transport Passes
+        if (tg.passes) {
+            html += '<div class="transport-section-group">';
+            html += '<h3 class="transport-section-title">🎫 교통 패스 추천</h3>';
+            if (nights) {
+                html += '<div class="transport-tip" style="margin-bottom: 1rem;">💡 ' + nights + '박 여행에는 ';
+                if (nights <= 2) html += '<strong>후쿠오카 투어리스트 시티패스</strong>가 가장 효율적입니다.';
+                else if (nights <= 4) html += '<strong>SUNQ 패스 (북부규슈 3일권)</strong> 또는 <strong>JR 북부규슈 레일패스</strong>를 추천합니다.';
+                else html += '<strong>JR 북부규슈 5일권</strong>과 <strong>SUNQ 패스</strong> 조합을 추천합니다.';
+                html += '</div>';
+            }
+            html += '<div class="pass-cards">';
+            tg.passes.forEach(function(p) {
+                html +=
+                    '<div class="pass-card">' +
+                        '<div class="pass-card-name">🎫 ' + p.name + '</div>' +
+                        '<div class="pass-card-price">' + p.price + '</div>' +
+                        '<p class="pass-card-coverage">📍 ' + p.coverage + '</p>' +
+                        '<p class="pass-card-recommended">✅ ' + p.recommended + '</p>' +
+                        '<p class="pass-card-where">🏪 ' + p.where + '</p>' +
+                    '</div>';
+            });
+            html += '</div></div>';
+        }
+
+        // Regional Routes
+        if (tg.regionalRoutes) {
+            html += '<div class="transport-section-group">';
+            html += '<h3 class="transport-section-title">🚃 지역 간 이동 방법</h3>';
+            tg.regionalRoutes.forEach(function(route) {
+                html +=
+                    '<div class="route-card">' +
+                        '<div class="route-card-header">📍 ' + route.from + ' → ' + route.to + '</div>' +
+                        '<div class="route-options">';
+                route.options.forEach(function(opt) {
+                    html +=
+                        '<div class="route-option">' +
+                            '<div class="route-option-method">🚌 ' + opt.method + '<br><span style="font-size:0.8rem;color:var(--text-muted);">' + opt.description + '</span></div>' +
+                            '<div class="route-option-duration">⏱ ' + opt.duration + '</div>' +
+                            '<div class="route-option-cost">' + opt.cost + '</div>' +
+                        '</div>';
+                });
+                html += '</div></div>';
+            });
+            html += '</div>';
+        }
+
+        container.innerHTML = html;
+    }
+
+    // ============================
+    // RENDER: Accommodation Guide
+    // ============================
+    function renderAccommodationGuide() {
+        var container = document.getElementById('accommodation-guide-content');
+        if (!container) return;
+
+        var accs = (typeof window.accommodations !== 'undefined' && Array.isArray(window.accommodations)) ? window.accommodations : null;
+        if (!accs || accs.length === 0) {
+            container.innerHTML = '<p style="color: var(--text-muted);">숙소 데이터를 불러오는 중...</p>';
+            return;
+        }
+
+        // Build filter buttons: type + price
+        var types = ['전체', '호텔', '료칸', '게스트하우스'];
+        var priceCategories = [
+            { label: '전체', value: 'all' },
+            { label: '절약형 (~¥8,000)', value: 'budget' },
+            { label: '중급 (¥8,000~20,000)', value: 'mid' },
+            { label: '프리미엄 (¥20,000~)', value: 'premium' }
+        ];
+
+        var html = '<div class="accommodation-filters" id="accommodation-type-filters">';
+        types.forEach(function(t, idx) {
+            html += '<button class="accommodation-filter-btn' + (idx === 0 ? ' active' : '') + '" data-type="' + t + '">' + t + '</button>';
+        });
+        html += '</div>';
+
+        html += '<div class="accommodation-filters" id="accommodation-price-filters">';
+        priceCategories.forEach(function(p, idx) {
+            html += '<button class="accommodation-filter-btn' + (idx === 0 ? ' active' : '') + '" data-price="' + p.value + '">' + p.label + '</button>';
+        });
+        html += '</div>';
+
+        html += '<div class="accommodations-grid" id="accommodations-grid">';
+        accs.forEach(function(a) {
+            var desc = a.description || '';
+            if (desc.length > 100) desc = desc.substring(0, 100) + '...';
+            var typeClass = a.type === '료칸' ? 'ryokan' : a.type === '게스트하우스' ? 'guesthouse' : 'hotel';
+            var imgSrc = a.imageQuery ? 'https://source.unsplash.com/featured/400x200/?' + encodeURIComponent(a.imageQuery) : '';
+
+            html +=
+                '<div class="accommodation-card" data-type="' + a.type + '" data-price="' + (a.priceCategory || 'mid') + '" data-region="' + a.region + '">' +
+                    (imgSrc ? '<img src="' + imgSrc + '" alt="' + a.name + '" class="attraction-card-image" loading="lazy" onerror="this.style.display=\'none\'">' : '') +
+                    '<span class="accommodation-card-type ' + typeClass + '">' + a.type + '</span>' +
+                    '<div class="accommodation-card-name">' + a.name + '</div>' +
+                    '<div class="accommodation-card-price">' + a.priceRange + '</div>' +
+                    '<p class="accommodation-card-description">' + desc + '</p>' +
+                    (a.features ? '<div class="accommodation-card-features">' + a.features.map(function(f) { return '<span class="accommodation-feature-tag">' + f + '</span>'; }).join('') + '</div>' : '') +
+                    (a.nearAttractions ? '<div class="accommodation-card-nearby"><strong>근처:</strong> ' + a.nearAttractions.join(', ') + '</div>' : '') +
+                '</div>';
+        });
+        html += '</div>';
+
+        container.innerHTML = html;
+
+        // Filter handlers
+        function filterAccommodations() {
+            var activeType = document.querySelector('#accommodation-type-filters .accommodation-filter-btn.active');
+            var activePrice = document.querySelector('#accommodation-price-filters .accommodation-filter-btn.active');
+            var type = activeType ? activeType.getAttribute('data-type') : '전체';
+            var price = activePrice ? activePrice.getAttribute('data-price') : 'all';
+
+            document.querySelectorAll('.accommodation-card').forEach(function(card) {
+                var typeMatch = (type === '전체') || card.getAttribute('data-type') === type;
+                var priceMatch = (price === 'all') || card.getAttribute('data-price') === price;
+                card.style.display = (typeMatch && priceMatch) ? '' : 'none';
+            });
+        }
+
+        document.querySelectorAll('#accommodation-type-filters .accommodation-filter-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('#accommodation-type-filters .accommodation-filter-btn').forEach(function(b) { b.classList.remove('active'); });
+                this.classList.add('active');
+                filterAccommodations();
+            });
+        });
+
+        document.querySelectorAll('#accommodation-price-filters .accommodation-filter-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('#accommodation-price-filters .accommodation-filter-btn').forEach(function(b) { b.classList.remove('active'); });
+                this.classList.add('active');
+                filterAccommodations();
+            });
+        });
+    }
+
+    // ============================
     // SECTION NAVIGATION - Active State
     // ============================
     function setupSectionNav() {
         var navLinks = document.querySelectorAll('.section-nav-link');
-        var sections = ['info', 'itinerary', 'budget', 'attractions'];
+        var sections = ['info', 'itinerary', 'budget', 'attractions', 'food-guide', 'transport-guide', 'accommodation-guide'];
 
         // Intersection Observer
         if ('IntersectionObserver' in window) {
