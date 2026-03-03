@@ -1,6 +1,7 @@
 // ============================================================
 // Fukuoka Travel Guide - data.js
-// Global data: locations (50+), regionCenters
+// Global data: locations (50+), regionCenters, restaurants,
+// transportGuide, accommodations
 // Loaded before map.js and planner.js
 // ============================================================
 
@@ -32,6 +33,7 @@ const locations = [
         website: 'https://canalcity.co.jp/',
         duration: 120,
         childFriendly: true,
+        imageQuery: 'Canal City Hakata Fukuoka',
         nearbyHotels: [
             { name: '그랜드 하얏트 후쿠오카', distance: '직결', price: '¥25,000~/박' },
             { name: '도미인 하카타 기온', distance: '도보 5분', price: '¥8,000~/박' }
@@ -48,6 +50,7 @@ const locations = [
         website: 'https://www.hakatayamakasa.com/',
         duration: 40,
         childFriendly: true,
+        imageQuery: 'Kushida Shrine Fukuoka',
         nearbyHotels: [
             { name: '하카타 그린 호텔', distance: '도보 3분', price: '¥6,500~/박' }
         ]
@@ -63,6 +66,7 @@ const locations = [
         website: 'https://www.jrhakatacity.com/',
         duration: 90,
         childFriendly: true,
+        imageQuery: 'Hakata Station Fukuoka',
         nearbyHotels: [
             { name: '호텔 닛코 후쿠오카', distance: '직결', price: '¥15,000~/박' },
             { name: 'JR규슈호텔 블로섬 하카타', distance: '직결', price: '¥10,000~/박' }
@@ -78,6 +82,7 @@ const locations = [
         admission: '200엔',
         duration: 45,
         childFriendly: true,
+        imageQuery: 'Hakata Machiya Folk Museum',
         nearbyHotels: []
     },
     {
@@ -90,6 +95,7 @@ const locations = [
         admission: '무료',
         duration: 30,
         childFriendly: true,
+        imageQuery: 'Tochoji Temple Fukuoka Buddha',
         nearbyHotels: []
     },
     {
@@ -103,6 +109,7 @@ const locations = [
         website: 'https://www.riverwalk.co.jp/',
         duration: 60,
         childFriendly: true,
+        imageQuery: 'Hakata Riverain Fukuoka',
         nearbyHotels: []
     },
     {
@@ -115,6 +122,7 @@ const locations = [
         admission: '무료',
         duration: 25,
         childFriendly: true,
+        imageQuery: 'Sumiyoshi Shrine Hakata Fukuoka',
         nearbyHotels: []
     },
     {
@@ -127,6 +135,7 @@ const locations = [
         admission: '무료',
         duration: 30,
         childFriendly: true,
+        imageQuery: 'Hakata Port Tower Fukuoka',
         nearbyHotels: []
     },
 
@@ -143,6 +152,7 @@ const locations = [
         admission: '무료 (음식 별도)',
         duration: 60,
         childFriendly: false,
+        imageQuery: 'Yatai food stall Fukuoka Nakasu',
         nearbyHotels: [
             { name: '니시테츠 인 나카스', distance: '도보 2분', price: '¥7,000~/박' }
         ]
@@ -158,6 +168,7 @@ const locations = [
         website: 'https://www.tenchika.com/',
         duration: 90,
         childFriendly: true,
+        imageQuery: 'Tenjin underground shopping Fukuoka',
         nearbyHotels: [
             { name: '솔라리아 니시테츠호텔', distance: '직결', price: '¥12,000~/박' }
         ]
@@ -172,6 +183,7 @@ const locations = [
         admission: '무료',
         duration: 30,
         childFriendly: true,
+        imageQuery: 'ACROS Fukuoka green building',
         nearbyHotels: []
     },
     {
@@ -184,6 +196,7 @@ const locations = [
         admission: '무료',
         duration: 20,
         childFriendly: true,
+        imageQuery: 'Tenjin Central Park Fukuoka cherry blossom',
         nearbyHotels: []
     },
     {
@@ -196,6 +209,7 @@ const locations = [
         admission: '무료',
         duration: 60,
         childFriendly: true,
+        imageQuery: 'Daimyo street Fukuoka cafe',
         nearbyHotels: []
     },
     {
@@ -209,6 +223,7 @@ const locations = [
         website: 'https://www.iwataya-mitsukoshi.co.jp/',
         duration: 60,
         childFriendly: true,
+        imageQuery: 'Iwataya department store Tenjin Fukuoka',
         nearbyHotels: []
     },
     {
@@ -222,6 +237,7 @@ const locations = [
         website: 'https://www.kirin.co.jp/',
         duration: 75,
         childFriendly: false,
+        imageQuery: 'Kirin Beer Factory Fukuoka tour',
         nearbyHotels: []
     },
 
@@ -239,6 +255,7 @@ const locations = [
         website: 'https://www.dazaifutenmangu.or.jp/',
         duration: 60,
         childFriendly: true,
+        imageQuery: 'Dazaifu Tenmangu Shrine',
         nearbyHotels: [
             { name: '다자이후 호텔', distance: '도보 10분', price: '¥8,000~/박' }
         ]
@@ -254,6 +271,7 @@ const locations = [
         website: 'https://www.kyuhaku.jp/',
         duration: 90,
         childFriendly: true,
+        imageQuery: 'Kyushu National Museum Dazaifu',
         nearbyHotels: []
     },
     {
@@ -266,6 +284,7 @@ const locations = [
         admission: '200엔',
         duration: 30,
         childFriendly: true,
+        imageQuery: 'Komyozenji Temple moss garden Dazaifu',
         nearbyHotels: []
     },
     {
@@ -278,6 +297,7 @@ const locations = [
         admission: '무료',
         duration: 40,
         childFriendly: true,
+        imageQuery: 'Dazaifu Tenmangu approach shopping street',
         nearbyHotels: []
     },
     {
@@ -290,6 +310,7 @@ const locations = [
         admission: '무료',
         duration: 25,
         childFriendly: true,
+        imageQuery: 'Kanzenji Temple Dazaifu bell',
         nearbyHotels: []
     },
     {
@@ -302,6 +323,7 @@ const locations = [
         admission: '무료',
         duration: 30,
         childFriendly: true,
+        imageQuery: 'Dazaifu government ruins historical park',
         nearbyHotels: []
     },
 
@@ -319,6 +341,7 @@ const locations = [
         website: 'https://www.fukuokatower.co.jp/',
         duration: 45,
         childFriendly: true,
+        imageQuery: 'Fukuoka Tower',
         nearbyHotels: [
             { name: '힐튼 후쿠오카 시호크', distance: '도보 5분', price: '¥18,000~/박' }
         ]
@@ -333,6 +356,7 @@ const locations = [
         admission: '무료 (일본정원 250엔)',
         duration: 60,
         childFriendly: true,
+        imageQuery: 'Ohori Park Fukuoka lake',
         nearbyHotels: []
     },
     {
@@ -345,6 +369,7 @@ const locations = [
         admission: '무료',
         duration: 40,
         childFriendly: true,
+        imageQuery: 'Fukuoka Castle ruins Maizuru Park',
         nearbyHotels: []
     },
     {
@@ -358,6 +383,7 @@ const locations = [
         website: 'https://www.marinoacity.com/',
         duration: 120,
         childFriendly: true,
+        imageQuery: 'Marinoa City Fukuoka outlet ferris wheel',
         nearbyHotels: []
     },
     {
@@ -370,6 +396,7 @@ const locations = [
         admission: '무료',
         duration: 40,
         childFriendly: true,
+        imageQuery: 'Momochi Beach Fukuoka sunset',
         nearbyHotels: []
     },
     {
@@ -383,6 +410,7 @@ const locations = [
         website: 'https://www.fukuoka-art-museum.jp/',
         duration: 60,
         childFriendly: true,
+        imageQuery: 'Fukuoka Art Museum',
         nearbyHotels: []
     },
     {
@@ -395,6 +423,7 @@ const locations = [
         admission: '무료 (음식 별도)',
         duration: 60,
         childFriendly: true,
+        imageQuery: 'Motsunabe hot pot Fukuoka',
         nearbyHotels: []
     },
     {
@@ -408,6 +437,7 @@ const locations = [
         website: 'https://zoo.city.fukuoka.lg.jp/',
         duration: 120,
         childFriendly: true,
+        imageQuery: 'Fukuoka Zoo botanical garden',
         nearbyHotels: []
     },
     {
@@ -421,6 +451,7 @@ const locations = [
         website: 'https://nokonoshima.com/',
         duration: 180,
         childFriendly: true,
+        imageQuery: 'Nokonoshima Island Park Fukuoka flowers',
         nearbyHotels: []
     },
 
@@ -437,6 +468,7 @@ const locations = [
         admission: '무료',
         duration: 30,
         childFriendly: true,
+        imageQuery: 'Sakurai Futamigaura couple rocks Itoshima sunset',
         nearbyHotels: []
     },
     {
@@ -449,6 +481,7 @@ const locations = [
         admission: '무료',
         duration: 60,
         childFriendly: true,
+        imageQuery: 'Itoshima beach Fukuoka',
         nearbyHotels: []
     },
     {
@@ -461,6 +494,7 @@ const locations = [
         admission: '무료 (음료 별도)',
         duration: 40,
         childFriendly: true,
+        imageQuery: 'London Bus Cafe Itoshima beach',
         nearbyHotels: []
     },
     {
@@ -473,6 +507,7 @@ const locations = [
         admission: '무료',
         duration: 45,
         childFriendly: true,
+        imageQuery: 'Shiraito Falls Itoshima waterfall',
         nearbyHotels: []
     },
     {
@@ -485,6 +520,7 @@ const locations = [
         admission: '무료 (체험 별도)',
         duration: 60,
         childFriendly: true,
+        imageQuery: 'Itoshima farm market Fukuoka',
         nearbyHotels: []
     },
     {
@@ -497,6 +533,7 @@ const locations = [
         admission: '무료',
         duration: 30,
         childFriendly: true,
+        imageQuery: 'Raizan Sennyoji Temple autumn leaves Itoshima',
         nearbyHotels: []
     },
 
@@ -514,6 +551,7 @@ const locations = [
         website: 'https://www.mojiko.info/',
         duration: 120,
         childFriendly: true,
+        imageQuery: 'Mojiko Retro district Kitakyushu',
         nearbyHotels: [
             { name: '프리미어 호텔 모지코', distance: '도보 1분', price: '¥12,000~/박' }
         ]
@@ -528,6 +566,7 @@ const locations = [
         admission: '무료 (자전거/원동기 20엔)',
         duration: 30,
         childFriendly: true,
+        imageQuery: 'Kanmon Pedestrian Tunnel undersea Kitakyushu',
         nearbyHotels: []
     },
     {
@@ -540,6 +579,7 @@ const locations = [
         admission: '350엔',
         duration: 45,
         childFriendly: true,
+        imageQuery: 'Kokura Castle Kitakyushu',
         nearbyHotels: [
             { name: '리가 로얄 호텔 고쿠라', distance: '도보 5분', price: '¥10,000~/박' }
         ]
@@ -554,6 +594,7 @@ const locations = [
         admission: '무료 (음식 별도)',
         duration: 60,
         childFriendly: true,
+        imageQuery: 'Tanga Market Kitakyushu seafood',
         nearbyHotels: []
     },
     {
@@ -567,6 +608,7 @@ const locations = [
         website: 'https://kawachi-fujien.com/',
         duration: 60,
         childFriendly: true,
+        imageQuery: 'Kawachi Wisteria Garden Kitakyushu tunnel',
         nearbyHotels: []
     },
     {
@@ -579,6 +621,7 @@ const locations = [
         admission: '무료',
         duration: 120,
         childFriendly: true,
+        imageQuery: 'The Outlets Kitakyushu shopping',
         nearbyHotels: []
     },
     {
@@ -591,6 +634,7 @@ const locations = [
         admission: '무료',
         duration: 30,
         childFriendly: true,
+        imageQuery: 'Tobata Gion Yamakasa festival Kitakyushu',
         nearbyHotels: []
     },
 
@@ -607,6 +651,7 @@ const locations = [
         admission: '무료',
         duration: 30,
         childFriendly: true,
+        imageQuery: 'Kinrinko Lake Yufuin morning mist',
         nearbyHotels: [
             { name: '무소엔', distance: '도보 1분', price: '¥30,000~/박' }
         ]
@@ -621,6 +666,7 @@ const locations = [
         admission: '무료',
         duration: 60,
         childFriendly: true,
+        imageQuery: 'Yunotsubo Street Yufuin shops',
         nearbyHotels: []
     },
     {
@@ -633,6 +679,7 @@ const locations = [
         admission: '무료',
         duration: 40,
         childFriendly: true,
+        imageQuery: 'Yufuin Floral Village Cotswold',
         nearbyHotels: []
     },
     {
@@ -645,6 +692,7 @@ const locations = [
         admission: '무료',
         duration: 240,
         childFriendly: false,
+        imageQuery: 'Mount Yufu hiking trail Yufuin',
         nearbyHotels: []
     },
     {
@@ -657,6 +705,7 @@ const locations = [
         admission: '200~800엔 (시설별)',
         duration: 45,
         childFriendly: true,
+        imageQuery: 'Yufuin onsen hot spring',
         nearbyHotels: []
     },
     {
@@ -669,6 +718,7 @@ const locations = [
         admission: '무료',
         duration: 15,
         childFriendly: true,
+        imageQuery: 'Yufuin Station building',
         nearbyHotels: [
             { name: '유후인 호나미노사토', distance: '도보 3분', price: '¥15,000~/박' }
         ]
@@ -683,6 +733,7 @@ const locations = [
         admission: '1,000엔',
         duration: 40,
         childFriendly: true,
+        imageQuery: 'Yufuin Stained Glass Museum',
         nearbyHotels: []
     },
 
@@ -700,6 +751,7 @@ const locations = [
         website: 'https://www.beppu-jigoku.com/',
         duration: 30,
         childFriendly: true,
+        imageQuery: 'Umi Jigoku sea hell Beppu blue',
         nearbyHotels: [
             { name: '벳푸 호텔 우미카제', distance: '도보 10분', price: '¥12,000~/박' }
         ]
@@ -714,6 +766,7 @@ const locations = [
         admission: '450엔 (통합권 포함)',
         duration: 25,
         childFriendly: true,
+        imageQuery: 'Chinoike Jigoku blood hell Beppu red',
         nearbyHotels: []
     },
     {
@@ -726,6 +779,7 @@ const locations = [
         admission: '450엔 (통합권 포함)',
         duration: 30,
         childFriendly: true,
+        imageQuery: 'Kamado Jigoku cooking hell Beppu steam',
         nearbyHotels: []
     },
     {
@@ -738,6 +792,7 @@ const locations = [
         admission: '300엔 (모래찜질 1,500엔)',
         duration: 60,
         childFriendly: false,
+        imageQuery: 'Takegawara Onsen Beppu sand bath',
         nearbyHotels: []
     },
     {
@@ -750,6 +805,7 @@ const locations = [
         admission: '200엔',
         duration: 25,
         childFriendly: true,
+        imageQuery: 'Beppu Tower observation',
         nearbyHotels: []
     },
     {
@@ -762,6 +818,7 @@ const locations = [
         admission: '600엔',
         duration: 45,
         childFriendly: true,
+        imageQuery: 'Myoban Onsen yunohana hut Beppu',
         nearbyHotels: []
     },
     {
@@ -774,6 +831,7 @@ const locations = [
         admission: '무료',
         duration: 30,
         childFriendly: true,
+        imageQuery: 'Shidaka Observatory Beppu night view',
         nearbyHotels: []
     },
     {
@@ -787,6 +845,833 @@ const locations = [
         website: 'https://www.umitamago.jp/',
         duration: 90,
         childFriendly: true,
+        imageQuery: 'Umitamago aquarium Beppu',
         nearbyHotels: []
     }
 ];
+
+// ============================================================
+// Restaurants (25+ across all regions)
+// ============================================================
+const restaurants = [
+    // ────────────────────────────────────────
+    // 라멘 (Ramen) — 6 shops
+    // ────────────────────────────────────────
+    {
+        name: '이치란 본점',
+        lat: 33.5912,
+        lng: 130.4015,
+        region: '하카타',
+        category: '라멘',
+        description: '돈코츠 라멘의 대명사. 1인석 칸막이에서 자신만의 맛을 커스터마이징할 수 있습니다.',
+        hours: '24시간 영업',
+        priceRange: '¥890~',
+        mustTry: '천연 돈코츠 라멘',
+        imageQuery: 'Ichiran Ramen Hakata'
+    },
+    {
+        name: '하카타 잇코샤 본점',
+        lat: 33.5905,
+        lng: 130.4018,
+        region: '하카타',
+        category: '라멘',
+        description: '진한 돈코츠 스프가 특징인 하카타 라멘 명가. 거품 스프의 농후한 맛이 일품입니다.',
+        hours: '11:00~24:00',
+        priceRange: '¥800~',
+        mustTry: '돈코츠 라멘 (카타멘)',
+        imageQuery: 'Hakata Ikkousha ramen Fukuoka'
+    },
+    {
+        name: '신신라멘 텐진본점',
+        lat: 33.5903,
+        lng: 130.3985,
+        region: '텐진/나카스',
+        category: '라멘',
+        description: '야타이 출신의 하카타 라멘 명점. 깔끔하면서도 깊은 맛의 돈코츠 스프가 특징입니다.',
+        hours: '11:00~03:00',
+        priceRange: '¥700~',
+        mustTry: '하카타 라멘',
+        imageQuery: 'ShinShin Ramen Tenjin Fukuoka'
+    },
+    {
+        name: '이치후지 라멘',
+        lat: 33.5890,
+        lng: 130.4200,
+        region: '하카타',
+        category: '라멘',
+        description: '하카타역 근처의 인기 라멘점. 부드럽고 크리미한 돈코츠 스프와 쫄깃한 호소멘이 조화롭습니다.',
+        hours: '11:00~22:00',
+        priceRange: '¥750~',
+        mustTry: '특제 돈코츠 라멘',
+        imageQuery: 'Ichifuji ramen Hakata tonkotsu'
+    },
+    {
+        name: '하카타 다루마 라멘 본점',
+        lat: 33.5918,
+        lng: 130.3942,
+        region: '텐진/나카스',
+        category: '라멘',
+        description: '1963년 창업의 전통 하카타 라멘. 초농후 돈코츠 스프와 자극적인 마늘 토핑이 인기입니다.',
+        hours: '12:00~02:00',
+        priceRange: '¥750~',
+        mustTry: '라멘 + 교자 세트',
+        imageQuery: 'Hakata Daruma Ramen Fukuoka'
+    },
+    {
+        name: '나가하마 라멘 나카스점',
+        lat: 33.5935,
+        lng: 130.4050,
+        region: '텐진/나카스',
+        category: '라멘',
+        description: '나가하마 발상의 원조 라멘. 가늘고 딱딱한 면(바리카타)과 담백한 돈코츠 스프의 조합이 특징입니다.',
+        hours: '18:00~02:00',
+        priceRange: '¥600~',
+        mustTry: '나가하마 라멘 바리카타',
+        imageQuery: 'Nagahama ramen Fukuoka'
+    },
+
+    // ────────────────────────────────────────
+    // 모츠나베 (Motsunabe) — 4 places
+    // ────────────────────────────────────────
+    {
+        name: '야마나카 아카사카점',
+        lat: 33.5870,
+        lng: 130.3960,
+        region: '후쿠오카 시내',
+        category: '모츠나베',
+        description: '후쿠오카 모츠나베의 명가. 간장 베이스의 국물에 신선한 소 곱창과 니라, 양배추가 가득합니다.',
+        hours: '17:00~23:00 (일요일 휴무)',
+        priceRange: '¥1,500~',
+        mustTry: '간장 모츠나베',
+        imageQuery: 'Yamanaka motsunabe Fukuoka'
+    },
+    {
+        name: '라쿠텐치 모츠나베',
+        lat: 33.5845,
+        lng: 130.3980,
+        region: '후쿠오카 시내',
+        category: '모츠나베',
+        description: '미소(된장) 베이스 모츠나베가 인기인 현지 맛집. 〆(마무리)에 챠폰멘을 넣어 먹는 것이 정석입니다.',
+        hours: '17:00~24:00',
+        priceRange: '¥1,400~',
+        mustTry: '미소 모츠나베',
+        imageQuery: 'Motsunabe hot pot Fukuoka miso'
+    },
+    {
+        name: '이치류 하카타점',
+        lat: 33.5910,
+        lng: 130.4170,
+        region: '하카타',
+        category: '모츠나베',
+        description: '하카타역 근처의 인기 모츠나베 전문점. 투명한 시오(소금) 스프에 프리프리한 곱창이 들어갑니다.',
+        hours: '11:30~14:00, 17:00~23:00',
+        priceRange: '¥1,500~',
+        mustTry: '시오 모츠나베',
+        imageQuery: 'Ichiryu motsunabe Hakata'
+    },
+    {
+        name: '오오야마 텐진점',
+        lat: 33.5895,
+        lng: 130.3965,
+        region: '텐진/나카스',
+        category: '모츠나베',
+        description: '신선한 와규 곱창만 사용하는 프리미엄 모츠나베 전문점. 미즈타키(물닭)도 인기 메뉴입니다.',
+        hours: '17:00~23:30',
+        priceRange: '¥1,800~',
+        mustTry: '특선 모츠나베 (간장)',
+        imageQuery: 'Oyama motsunabe premium Tenjin'
+    },
+
+    // ────────────────────────────────────────
+    // 교자 (Gyoza) — 3 places
+    // ────────────────────────────────────────
+    {
+        name: '텐진 교자 하카타점',
+        lat: 33.5900,
+        lng: 130.4195,
+        region: '하카타',
+        category: '교자',
+        description: '한 입 크기의 하카타 교자 전문점. 바삭한 겉면과 육즙 가득한 속이 매력적입니다.',
+        hours: '11:00~23:00',
+        priceRange: '¥500~',
+        mustTry: '히토쿠치 교자 (한입 교자) 2인분',
+        imageQuery: 'Hakata gyoza dumplings Fukuoka'
+    },
+    {
+        name: '하카타 교자사 나카스점',
+        lat: 33.5930,
+        lng: 130.4040,
+        region: '텐진/나카스',
+        category: '교자',
+        description: '나카스에서 인기인 교자 전문점. 유즈(유자) 후추를 곁들여 먹는 것이 이 집만의 스타일입니다.',
+        hours: '12:00~24:00',
+        priceRange: '¥550~',
+        mustTry: '야키교자 + 유즈후추',
+        imageQuery: 'Gyoza restaurant Nakasu Fukuoka'
+    },
+    {
+        name: '야타이 교자 텐진점',
+        lat: 33.5882,
+        lng: 130.3950,
+        region: '텐진/나카스',
+        category: '교자',
+        description: '야타이(포장마차) 스타일의 교자 전문점. 철판에 빙 둘러 구운 테츠나베 교자가 시그니처입니다.',
+        hours: '18:00~01:00',
+        priceRange: '¥600~',
+        mustTry: '테츠나베 교자',
+        imageQuery: 'Tetsunabe gyoza iron pan Fukuoka'
+    },
+
+    // ────────────────────────────────────────
+    // 야키토리/꼬치 (Yakitori) — 3 places
+    // ────────────────────────────────────────
+    {
+        name: '야키토리 바탄큐 하카타점',
+        lat: 33.5895,
+        lng: 130.4180,
+        region: '하카타',
+        category: '야키토리',
+        description: '하카타역 앞의 인기 야키토리점. 비장탄으로 구운 닭꼬치와 돼지바라 꼬치가 일품입니다.',
+        hours: '17:00~24:00',
+        priceRange: '¥800~',
+        mustTry: '닭껍질 꼬치 (카와)',
+        imageQuery: 'Yakitori skewers Hakata Fukuoka'
+    },
+    {
+        name: '텐진 호루몬 (곱창구이)',
+        lat: 33.5888,
+        lng: 130.3935,
+        region: '텐진/나카스',
+        category: '야키토리',
+        description: '신선한 호루몬(곱창)을 숯불에 구워 먹는 전문점. 다이묘 에어리어에서 현지인에게 인기입니다.',
+        hours: '17:00~23:00 (일요일 휴무)',
+        priceRange: '¥1,200~',
+        mustTry: '모둠 호루몬 세트',
+        imageQuery: 'Horumon grilled offal Tenjin Fukuoka'
+    },
+    {
+        name: '하카타 잇소',
+        lat: 33.5908,
+        lng: 130.4100,
+        region: '하카타',
+        category: '야키토리',
+        description: '하카타 스타일의 야키토리 이자카야. 닭가슴살 타타키와 명란젓 계란말이가 인기입니다.',
+        hours: '16:00~24:00',
+        priceRange: '¥900~',
+        mustTry: '치킨 나카카와 (닭날개 사이)',
+        imageQuery: 'Hakata yakitori izakaya'
+    },
+
+    // ────────────────────────────────────────
+    // 해산물/스시 (Seafood/Sushi) — 3 places
+    // ────────────────────────────────────────
+    {
+        name: '야나기바시 연합시장',
+        lat: 33.5868,
+        lng: 130.4045,
+        region: '텐진/나카스',
+        category: '해산물',
+        description: '후쿠오카의 부엌으로 불리는 전통 재래시장. 신선한 회와 해산물 덮밥을 아침부터 즐길 수 있습니다.',
+        hours: '06:00~18:00 (일요일, 공휴일 휴무)',
+        priceRange: '¥1,000~',
+        mustTry: '해선덮밥 (카이센동)',
+        imageQuery: 'Yanagibashi Market Fukuoka seafood'
+    },
+    {
+        name: '겐카이 스시 하카타점',
+        lat: 33.5902,
+        lng: 130.4190,
+        region: '하카타',
+        category: '해산물',
+        description: '현해탄에서 잡은 신선한 어패류를 사용하는 회전스시. 이카(오징어) 활어회가 명물입니다.',
+        hours: '11:00~22:00',
+        priceRange: '¥1,500~',
+        mustTry: '이카 이키즈쿠리 (오징어 활어회)',
+        imageQuery: 'Sushi Fukuoka Genkai fresh seafood'
+    },
+    {
+        name: '우오마루 텐진점',
+        lat: 33.5898,
+        lng: 130.3972,
+        region: '텐진/나카스',
+        category: '해산물',
+        description: '고마사바(참깨 고등어)와 이카 활어회가 유명한 해산물 이자카야. 후쿠오카 향토 해산물의 정수입니다.',
+        hours: '17:00~23:00',
+        priceRange: '¥2,000~',
+        mustTry: '고마사바 (참깨 고등어 회)',
+        imageQuery: 'Gomasaba sesame mackerel Fukuoka'
+    },
+
+    // ────────────────────────────────────────
+    // 카페/디저트 (Cafe/Dessert) — 3 places
+    // ────────────────────────────────────────
+    {
+        name: 'NO COFFEE',
+        lat: 33.5865,
+        lng: 130.3918,
+        region: '텐진/나카스',
+        category: '카페',
+        description: '다이묘의 아이코닉한 카페. "NO COFFEE, NO LIFE" 슬로건의 굿즈와 스페셜티 커피가 유명합니다.',
+        hours: '10:00~20:00',
+        priceRange: '¥500~',
+        mustTry: '드립 커피 + 오리지널 굿즈',
+        imageQuery: 'NO COFFEE cafe Daimyo Fukuoka'
+    },
+    {
+        name: '하코자키 소보로',
+        lat: 33.6170,
+        lng: 130.4260,
+        region: '후쿠오카 시내',
+        category: '카페',
+        description: '후쿠오카에서 유명한 빵집 카페. 갓 구운 소보로빵과 크림빵이 오전에 품절되는 인기점입니다.',
+        hours: '07:00~17:00 (품절 시 조기 마감)',
+        priceRange: '¥300~',
+        mustTry: '소보로빵 + 크림빵',
+        imageQuery: 'Japanese bakery cafe Fukuoka bread'
+    },
+    {
+        name: '무츠카도 카페',
+        lat: 33.5880,
+        lng: 130.3940,
+        region: '텐진/나카스',
+        category: '카페',
+        description: '레트로 분위기의 다이묘 카페. 수제 푸딩과 나폴리탄 스파게티가 인기인 클래식 킷사텐 스타일입니다.',
+        hours: '11:00~22:00',
+        priceRange: '¥600~',
+        mustTry: '가마쿠라 푸딩',
+        imageQuery: 'Retro kissaten cafe Fukuoka pudding'
+    },
+
+    // ────────────────────────────────────────
+    // 기타 (우동, 카레, 향토음식) — 3 places
+    // ────────────────────────────────────────
+    {
+        name: '우에스트 우동 하카타역점',
+        lat: 33.5892,
+        lng: 130.4205,
+        region: '하카타',
+        category: '우동',
+        description: '후쿠오카식 부드러운 우동 체인의 대표 브랜드. 하카타는 원래 라멘보다 우동의 고장이었습니다.',
+        hours: '07:00~23:00',
+        priceRange: '¥400~',
+        mustTry: '고보텐 우동 (우엉튀김 우동)',
+        imageQuery: 'Hakata udon noodles gobo tempura'
+    },
+    {
+        name: '카레혼포 하카타역점',
+        lat: 33.5896,
+        lng: 130.4210,
+        region: '하카타',
+        category: '카레',
+        description: '규슈 야채와 고기를 듬뿍 넣은 일본식 카레 전문점. 하카타역 지하에 위치해 접근성이 좋습니다.',
+        hours: '11:00~22:00',
+        priceRange: '¥800~',
+        mustTry: '규슈 야채 카레',
+        imageQuery: 'Japanese curry rice Hakata Fukuoka'
+    },
+    {
+        name: '미즈타키 하카타 화선',
+        lat: 33.5920,
+        lng: 130.4080,
+        region: '하카타',
+        category: '향토음식',
+        description: '후쿠오카 향토 요리 미즈타키(물닭국) 전문점. 백탁 닭국물에 신선한 닭고기를 퐁즈에 찍어 먹습니다.',
+        hours: '17:00~22:00 (일요일 휴무)',
+        priceRange: '¥3,500~',
+        mustTry: '미즈타키 코스',
+        imageQuery: 'Mizutaki chicken hot pot Hakata Fukuoka'
+    }
+];
+
+// ============================================================
+// Transport Guide
+// ============================================================
+const transportGuide = {
+    airportAccess: [
+        {
+            method: '지하철 (공항선)',
+            destination: '하카타역',
+            duration: '5분',
+            cost: '260엔',
+            frequency: '약 7~8분 간격',
+            description: '가장 빠르고 편리한 방법. 국내선 터미널 지하에서 바로 탑승.',
+            tip: '국제선에서는 무료 셔틀버스로 국내선 이동 후 지하철 탑승 (약 15분 소요)'
+        },
+        {
+            method: '지하철 (공항선)',
+            destination: '텐진역',
+            duration: '11분',
+            cost: '260엔',
+            frequency: '약 7~8분 간격',
+            description: '텐진 방면도 환승 없이 직행.'
+        },
+        {
+            method: '버스 (니시테츠)',
+            destination: '하카타역',
+            duration: '15~20분',
+            cost: '260엔',
+            frequency: '약 10분 간격',
+            description: '국제선 터미널에서 직접 탑승 가능.'
+        },
+        {
+            method: '택시',
+            destination: '하카타역',
+            duration: '10~15분',
+            cost: '약 1,500엔',
+            frequency: '상시',
+            description: '짐이 많거나 심야 도착 시 편리. 4인까지 동일 요금.'
+        }
+    ],
+    passes: [
+        {
+            name: '후쿠오카 투어리스트 시티패스',
+            price: '1일권 1,050엔 (확장판 1,580엔)',
+            coverage: '후쿠오카 시내 지하철, 버스 무제한 (확장판: 다자이후 포함)',
+            recommended: '2박 이상 시내 관광 중심 여행',
+            where: '하카타역, 텐진역 관광안내소'
+        },
+        {
+            name: 'SUNQ 패스',
+            price: '전 규슈 3일권 11,000엔 / 북부 규슈 3일권 9,000엔',
+            coverage: '규슈 전역 고속버스 + 시내버스 무제한',
+            recommended: '유후인, 벳푸 등 규슈 광역 여행',
+            where: '하카타 버스터미널, 온라인 사전구매'
+        },
+        {
+            name: 'JR 북부규슈 레일패스',
+            price: '3일권 11,000엔 / 5일권 15,000엔',
+            coverage: 'JR 규슈 북부 노선 (하카타~키타큐슈, 유후인, 벳푸 등)',
+            recommended: '키타큐슈, 유후인, 벳푸 JR 이동 시',
+            where: '하카타역 JR 티켓 오피스, 온라인'
+        },
+        {
+            name: '니시테츠 버스 1일권',
+            price: '900엔',
+            coverage: '니시테츠 시내버스 무제한',
+            recommended: '버스 3회 이상 이용 시',
+            where: '니시테츠 텐진 고속버스터미널'
+        },
+        {
+            name: 'FUKUOKA 1DAY PASS',
+            price: '2,650엔',
+            coverage: '후쿠오카 시내 + 다자이후 + 야나가와 니시테츠 전선',
+            recommended: '다자이후 + 야나가와 당일치기',
+            where: '니시테츠 텐진역'
+        }
+    ],
+    regionalRoutes: [
+        {
+            from: '하카타/텐진',
+            to: '다자이후',
+            options: [
+                { method: '니시테츠 전철', duration: '약 40분', cost: '410엔', description: '텐진역 → 후츠카이치(환승) → 다자이후역. 관광열차 타비토(旅人)호 추천' },
+                { method: '버스 (니시테츠)', duration: '약 40분', cost: '610엔', description: '하카타 버스터미널에서 직행 버스' }
+            ]
+        },
+        {
+            from: '하카타',
+            to: '유후인',
+            options: [
+                { method: 'JR 특급 유후인노모리', duration: '약 2시간 15분', cost: '4,560엔', description: '하카타역 직행 관광열차. 예약 필수 (인기 많음)' },
+                { method: '고속버스', duration: '약 2시간', cost: '2,900엔', description: '하카타 버스터미널에서 직행. SUNQ패스 이용 가능' }
+            ]
+        },
+        {
+            from: '하카타',
+            to: '벳푸',
+            options: [
+                { method: 'JR 특급 소닉', duration: '약 2시간', cost: '5,580엔', description: '하카타역 직행. 30~60분 간격 운행' },
+                { method: '고속버스', duration: '약 2시간 30분', cost: '3,250엔', description: '하카타 버스터미널에서 직행' }
+            ]
+        },
+        {
+            from: '하카타',
+            to: '키타큐슈 (고쿠라)',
+            options: [
+                { method: '신칸센', duration: '약 15분', cost: '2,160엔', description: '가장 빠름. JR패스 이용 가능' },
+                { method: 'JR 쾌속', duration: '약 1시간 20분', cost: '1,310엔', description: '저렴한 옵션. JR패스 이용 가능' }
+            ]
+        },
+        {
+            from: '하카타',
+            to: '이토시마',
+            options: [
+                { method: 'JR 치쿠히선', duration: '약 35분', cost: '580엔', description: '하카타역 → 치쿠젠마에바루역. 이토시마 관광은 역에서 버스/렌터카 필요' },
+                { method: '렌터카', duration: '약 40분', cost: '약 5,000엔~/일', description: '이토시마 내 이동이 자유로움. 가장 추천하는 방법' }
+            ]
+        },
+        {
+            from: '유후인',
+            to: '벳푸',
+            options: [
+                { method: 'JR 보통열차', duration: '약 1시간', cost: '1,170엔', description: '유후인역 → 벳푸역' },
+                { method: '버스', duration: '약 50분', cost: '1,000엔', description: '유후인 버스센터에서 가메노이 버스' }
+            ]
+        }
+    ]
+};
+
+// ============================================================
+// Accommodations (25 across all regions)
+// ============================================================
+const accommodations = [
+    // ────────────────────────────────────────
+    // 하카타 (Hakata) — 8 accommodations
+    // ────────────────────────────────────────
+    {
+        name: '그랜드 하얏트 후쿠오카',
+        lat: 33.5898,
+        lng: 130.4110,
+        region: '하카타',
+        type: '호텔',
+        priceRange: '¥25,000~',
+        priceCategory: 'premium',
+        description: '캐널시티 하카타 직결 5성급 호텔. 최고급 시설과 서비스를 자랑합니다.',
+        features: ['캐널시티 직결', '피트니스', '레스토랑', '룸서비스', '컨시어지'],
+        nearAttractions: ['캐널시티 하카타', '쿠시다 신사', '나카스 야타이'],
+        imageQuery: 'Grand Hyatt Fukuoka hotel'
+    },
+    {
+        name: '호텔 닛코 후쿠오카',
+        lat: 33.5900,
+        lng: 130.4207,
+        region: '하카타',
+        type: '호텔',
+        priceRange: '¥15,000~',
+        priceCategory: 'mid',
+        description: '하카타역 직결의 고급 호텔. 교통 접근성이 뛰어나며 비즈니스와 관광 모두에 편리합니다.',
+        features: ['하카타역 직결', '조식 뷔페', '피트니스', '컨시어지', '공항 리무진 정차'],
+        nearAttractions: ['하카타역', '캐널시티 하카타', '쿠시다 신사'],
+        imageQuery: 'Hotel Nikko Fukuoka Hakata'
+    },
+    {
+        name: 'JR규슈호텔 블로섬 하카타 중앙',
+        lat: 33.5895,
+        lng: 130.4200,
+        region: '하카타',
+        type: '호텔',
+        priceRange: '¥10,000~',
+        priceCategory: 'mid',
+        description: '하카타역 바로 앞의 현대적인 비즈니스 호텔. 깔끔한 객실과 합리적인 가격이 장점입니다.',
+        features: ['하카타역 도보 1분', '조식', '코인 세탁', 'Wi-Fi'],
+        nearAttractions: ['하카타역', '캐널시티 하카타'],
+        imageQuery: 'JR Kyushu Hotel Blossom Hakata'
+    },
+    {
+        name: '도미인 하카타 기온',
+        lat: 33.5905,
+        lng: 130.4095,
+        region: '하카타',
+        type: '호텔',
+        priceRange: '¥8,000~',
+        priceCategory: 'mid',
+        description: '옥상 천연 온천이 매력인 비즈니스 호텔. 무료 야식 라멘 서비스가 유명합니다.',
+        features: ['옥상 천연온천', '무료 야식 라멘', '코인 세탁', 'Wi-Fi', '사우나'],
+        nearAttractions: ['쿠시다 신사', '캐널시티 하카타', '나카스 야타이'],
+        imageQuery: 'Dormy Inn Hakata Gion onsen'
+    },
+    {
+        name: '위드 더 스타일 후쿠오카',
+        lat: 33.5910,
+        lng: 130.4155,
+        region: '하카타',
+        type: '호텔',
+        priceRange: '¥20,000~',
+        priceCategory: 'premium',
+        description: '전 객실 16실의 부티크 호텔. 세련된 디자인과 옥상 풀, 프라이빗한 분위기가 특별합니다.',
+        features: ['부티크 호텔', '옥상 수영장', '레스토랑', '바', '디자인 인테리어'],
+        nearAttractions: ['하카타역', '캐널시티 하카타', '쿠시다 신사'],
+        imageQuery: 'WITH THE STYLE Fukuoka boutique hotel'
+    },
+    {
+        name: '하카타 그린 호텔 1호관',
+        lat: 33.5915,
+        lng: 130.4100,
+        region: '하카타',
+        type: '호텔',
+        priceRange: '¥5,000~',
+        priceCategory: 'budget',
+        description: '쿠시다 신사 근처의 가성비 좋은 비즈니스 호텔. 깨끗하고 위치가 좋아 관광 거점으로 최적입니다.',
+        features: ['Wi-Fi', '코인 세탁', '자동 체크인', '24시간 프론트'],
+        nearAttractions: ['쿠시다 신사', '캐널시티 하카타', '하카타 마치야 후루사토관'],
+        imageQuery: 'Hakata Green Hotel budget'
+    },
+    {
+        name: '하카타 게스트하우스 타카타나',
+        lat: 33.5888,
+        lng: 130.4150,
+        region: '하카타',
+        type: '게스트하우스',
+        priceRange: '¥3,000~',
+        priceCategory: 'budget',
+        description: '하카타역 도보 10분 거리의 아늑한 게스트하우스. 여행자들과 교류할 수 있는 라운지가 있습니다.',
+        features: ['도미토리', '공용 라운지', '공용 주방', 'Wi-Fi', '짐 보관'],
+        nearAttractions: ['하카타역', '스미요시 신사'],
+        imageQuery: 'Hakata guesthouse hostel Fukuoka'
+    },
+    {
+        name: '호스텔 히포 하카타',
+        lat: 33.5878,
+        lng: 130.4120,
+        region: '하카타',
+        type: '게스트하우스',
+        priceRange: '¥3,500~',
+        priceCategory: 'budget',
+        description: '깔끔한 시설과 프라이버시 커튼이 있는 캡슐형 도미토리. 1인 여행자에게 인기입니다.',
+        features: ['캡슐형 도미토리', '공용 주방', 'Wi-Fi', '짐 보관', '자전거 대여'],
+        nearAttractions: ['캐널시티 하카타', '나카스 야타이'],
+        imageQuery: 'Capsule hostel Hakata Fukuoka'
+    },
+
+    // ────────────────────────────────────────
+    // 텐진 (Tenjin) — 5 accommodations
+    // ────────────────────────────────────────
+    {
+        name: '솔라리아 니시테츠 호텔 후쿠오카',
+        lat: 33.5893,
+        lng: 130.3990,
+        region: '텐진/나카스',
+        type: '호텔',
+        priceRange: '¥12,000~',
+        priceCategory: 'mid',
+        description: '텐진 지하상가 직결의 시티 호텔. 쇼핑과 교통의 중심지에 위치해 편리합니다.',
+        features: ['텐진 지하상가 직결', '조식 뷔페', '레스토랑', 'Wi-Fi', '니시테츠 전철 연결'],
+        nearAttractions: ['텐진 지하상가', '이와타야 백화점', '아크로스 후쿠오카'],
+        imageQuery: 'Solaria Nishitetsu Hotel Fukuoka Tenjin'
+    },
+    {
+        name: '니시테츠 인 텐진',
+        lat: 33.5885,
+        lng: 130.3975,
+        region: '텐진/나카스',
+        type: '호텔',
+        priceRange: '¥7,000~',
+        priceCategory: 'budget',
+        description: '텐진 중심부의 합리적인 비즈니스 호텔. 니시테츠 그룹의 안정적인 서비스를 제공합니다.',
+        features: ['텐진역 도보 3분', '조식', 'Wi-Fi', '코인 세탁', '자동 체크인'],
+        nearAttractions: ['텐진 지하상가', '다이묘 에어리어', '텐진 중앙공원'],
+        imageQuery: 'Nishitetsu Inn Tenjin budget hotel'
+    },
+    {
+        name: '더 라이브리 후쿠오카',
+        lat: 33.5875,
+        lng: 130.3960,
+        region: '텐진/나카스',
+        type: '호텔',
+        priceRange: '¥9,000~',
+        priceCategory: 'mid',
+        description: '다이묘 에어리어의 라이프스타일 호텔. 트렌디한 인테리어와 카페 라운지가 매력적입니다.',
+        features: ['카페 라운지', '디자인 인테리어', 'Wi-Fi', '자전거 대여', '워크스페이스'],
+        nearAttractions: ['다이묘 에어리어', '텐진 중앙공원', '텐진 지하상가'],
+        imageQuery: 'The Lively Fukuoka lifestyle hotel'
+    },
+    {
+        name: '니시테츠 그랜드 호텔',
+        lat: 33.5890,
+        lng: 130.3985,
+        region: '텐진/나카스',
+        type: '호텔',
+        priceRange: '¥18,000~',
+        priceCategory: 'premium',
+        description: '텐진의 전통 명문 호텔. 1969년 개업 이래 후쿠오카의 대표 호텔로 사랑받고 있습니다.',
+        features: ['레스토랑 3개', '바', '피트니스', '컨시어지', '연회장'],
+        nearAttractions: ['텐진 지하상가', '이와타야 백화점', '아크로스 후쿠오카'],
+        imageQuery: 'Nishitetsu Grand Hotel Fukuoka classic'
+    },
+    {
+        name: '와이즈 아울 호스텔스 하카타',
+        lat: 33.5920,
+        lng: 130.4040,
+        region: '텐진/나카스',
+        type: '게스트하우스',
+        priceRange: '¥3,200~',
+        priceCategory: 'budget',
+        description: '나카스 강변의 깨끗한 게스트하우스. 옥상 테라스에서 나카스 야경을 감상할 수 있습니다.',
+        features: ['옥상 테라스', '도미토리/개인실', '공용 주방', 'Wi-Fi', '바 라운지'],
+        nearAttractions: ['나카스 야타이', '하카타 리버레인', '캐널시티 하카타'],
+        imageQuery: 'Wise Owl Hostels Hakata riverside'
+    },
+
+    // ────────────────────────────────────────
+    // 유후인 (Yufuin) — 4 accommodations
+    // ────────────────────────────────────────
+    {
+        name: '유후인 무소엔',
+        lat: 33.2718,
+        lng: 131.3738,
+        region: '유후인',
+        type: '료칸',
+        priceRange: '¥30,000~',
+        priceCategory: 'premium',
+        description: '긴린코 호숫가에 위치한 최고급 료칸. 전 객실 노천 온천과 유후다케 조망을 갖추고 있습니다.',
+        features: ['전 객실 노천온천', '긴린코 호숫가', '카이세키 요리', '유후다케 조망', '무료 셔틀'],
+        nearAttractions: ['유후인 긴린코', '유노츠보 거리', '유후인 플로랄 빌리지'],
+        imageQuery: 'Yufuin Musoen ryokan luxury onsen'
+    },
+    {
+        name: '유후인 호나미노사토',
+        lat: 33.2630,
+        lng: 131.3615,
+        region: '유후인',
+        type: '료칸',
+        priceRange: '¥15,000~',
+        priceCategory: 'mid',
+        description: '유후인역 근처의 정통 료칸. 가족 단위 노천온천과 지역 식재료를 활용한 요리가 좋습니다.',
+        features: ['가족 노천온천', '가이세키 요리', '유후인역 도보 3분', '무료 주차'],
+        nearAttractions: ['유후인 역', '유노츠보 거리', '유후인 긴린코'],
+        imageQuery: 'Yufuin Honaminosato ryokan'
+    },
+    {
+        name: '유후인 산쇼 료칸',
+        lat: 33.2690,
+        lng: 131.3690,
+        region: '유후인',
+        type: '료칸',
+        priceRange: '¥20,000~',
+        priceCategory: 'premium',
+        description: '유노츠보 거리 근처의 전통 료칸. 수령 150년의 고민가를 활용한 독채 료칸으로 운치가 있습니다.',
+        features: ['독채 스타일', '전용 노천온천', '고민가 건축', '가이세키 요리', '정원'],
+        nearAttractions: ['유노츠보 거리', '유후인 플로랄 빌리지', '유후인 긴린코'],
+        imageQuery: 'Yufuin traditional ryokan private onsen'
+    },
+    {
+        name: '유후인 가든 호텔',
+        lat: 33.2645,
+        lng: 131.3630,
+        region: '유후인',
+        type: '호텔',
+        priceRange: '¥10,000~',
+        priceCategory: 'mid',
+        description: '유후인역 도보 5분의 양식 호텔. 온천 대욕장과 유후다케 뷰가 있어 합리적인 유후인 숙박이 가능합니다.',
+        features: ['온천 대욕장', '유후다케 뷰', '조식', 'Wi-Fi', '무료 주차'],
+        nearAttractions: ['유후인 역', '유노츠보 거리'],
+        imageQuery: 'Yufuin garden hotel mountain view'
+    },
+
+    // ────────────────────────────────────────
+    // 벳푸 (Beppu) — 3 accommodations
+    // ────────────────────────────────────────
+    {
+        name: '스기노이 호텔',
+        lat: 33.3010,
+        lng: 131.4750,
+        region: '벳푸',
+        type: '호텔',
+        priceRange: '¥15,000~',
+        priceCategory: 'mid',
+        description: '벳푸만을 조망하는 대규모 리조트 호텔. 거대한 노천탕 "다나유"에서의 온천이 압권입니다.',
+        features: ['대형 노천온천', '벳푸만 조망', '수영장', '뷔페 레스토랑', '무료 셔틀'],
+        nearAttractions: ['벳푸 지옥 순례', '묘반 온천', '벳푸 타워'],
+        imageQuery: 'Suginoi Hotel Beppu panoramic onsen'
+    },
+    {
+        name: '벳푸 카메노이 호텔',
+        lat: 33.2810,
+        lng: 131.5010,
+        region: '벳푸',
+        type: '호텔',
+        priceRange: '¥8,000~',
+        priceCategory: 'mid',
+        description: '벳푸역 근처의 클래식 온천 호텔. 1911년 창업의 역사를 가진 벳푸 대표 숙소입니다.',
+        features: ['온천 대욕장', '벳푸역 도보 5분', '일본 정원', '조식 뷔페', '기념품샵'],
+        nearAttractions: ['다케가와라 온천', '벳푸 타워', '벳푸 아쿠아마린'],
+        imageQuery: 'Kamenoi Hotel Beppu classic onsen'
+    },
+    {
+        name: '벳푸 게스트하우스 로쿠하치',
+        lat: 33.2795,
+        lng: 131.5025,
+        region: '벳푸',
+        type: '게스트하우스',
+        priceRange: '¥3,500~',
+        priceCategory: 'budget',
+        description: '벳푸역 도보 3분의 아늑한 게스트하우스. 온천 순례를 위한 거점으로 여행자에게 인기입니다.',
+        features: ['도미토리/개인실', '공용 주방', 'Wi-Fi', '온천 안내', '자전거 대여'],
+        nearAttractions: ['다케가와라 온천', '벳푸 타워', '벳푸역'],
+        imageQuery: 'Beppu guesthouse backpacker'
+    },
+
+    // ────────────────────────────────────────
+    // 키타큐슈 (Kitakyushu) — 2 accommodations
+    // ────────────────────────────────────────
+    {
+        name: '프리미어 호텔 모지코',
+        lat: 33.9502,
+        lng: 130.9610,
+        region: '키타큐슈',
+        type: '호텔',
+        priceRange: '¥12,000~',
+        priceCategory: 'mid',
+        description: '모지코 레트로 지구 내 위치한 해변 호텔. 간몬 해협의 야경이 객실에서 감상됩니다.',
+        features: ['간몬 해협 뷰', '레스토랑', '모지코 레트로 직결', 'Wi-Fi', '무료 주차'],
+        nearAttractions: ['모지코 레트로 지구', '간몬 해협 인도 터널'],
+        imageQuery: 'Premier Hotel Mojiko retro harbor'
+    },
+    {
+        name: '리가 로얄 호텔 고쿠라',
+        lat: 33.8838,
+        lng: 130.8745,
+        region: '키타큐슈',
+        type: '호텔',
+        priceRange: '¥10,000~',
+        priceCategory: 'mid',
+        description: '고쿠라성 근처의 시티 호텔. 고쿠라역 도보 5분으로 키타큐슈 관광 거점에 최적입니다.',
+        features: ['고쿠라역 도보 5분', '레스토랑', '피트니스', 'Wi-Fi', '연회장'],
+        nearAttractions: ['고쿠라성', '탄가 시장'],
+        imageQuery: 'Rihga Royal Hotel Kokura Kitakyushu'
+    },
+
+    // ────────────────────────────────────────
+    // 후쿠오카 시내 (Fukuoka City) — 2 accommodations
+    // ────────────────────────────────────────
+    {
+        name: '힐튼 후쿠오카 시호크',
+        lat: 33.5950,
+        lng: 130.3530,
+        region: '후쿠오카 시내',
+        type: '호텔',
+        priceRange: '¥18,000~',
+        priceCategory: 'premium',
+        description: '후쿠오카 타워 옆의 해변 리조트 호텔. PayPay 돔 직결로 야구 관전에도 편리합니다.',
+        features: ['PayPay 돔 직결', '해변 뷰', '수영장', '피트니스', '레스토랑 5개'],
+        nearAttractions: ['후쿠오카 타워', '모모치 해변', '마리노아시티'],
+        imageQuery: 'Hilton Fukuoka Sea Hawk resort'
+    },
+    {
+        name: '호텔 마리노아 리조트',
+        lat: 33.5875,
+        lng: 130.3230,
+        region: '후쿠오카 시내',
+        type: '호텔',
+        priceRange: '¥8,000~',
+        priceCategory: 'mid',
+        description: '마리노아시티 아울렛 근처의 리조트 호텔. 대관람차 뷰와 쇼핑 접근성이 좋습니다.',
+        features: ['마리노아시티 근접', '해변 뷰', '레스토랑', 'Wi-Fi', '무료 주차'],
+        nearAttractions: ['마리노아시티 후쿠오카', '모모치 해변'],
+        imageQuery: 'Marinoa resort hotel Fukuoka'
+    },
+
+    // ────────────────────────────────────────
+    // 이토시마 (Itoshima) — 1 accommodation
+    // ────────────────────────────────────────
+    {
+        name: '이토시마 비치 게스트하우스',
+        lat: 33.5540,
+        lng: 130.1760,
+        region: '이토시마',
+        type: '게스트하우스',
+        priceRange: '¥4,000~',
+        priceCategory: 'budget',
+        description: '이토시마 해변 근처의 서퍼 친화적 게스트하우스. 해변까지 도보 3분으로 서핑과 바다를 즐기기에 최적입니다.',
+        features: ['해변 도보 3분', '서핑보드 대여', '공용 주방', 'Wi-Fi', 'BBQ 시설'],
+        nearAttractions: ['이토시마 해변', '런던버스 카페', '사쿠라이 후타미가우라'],
+        imageQuery: 'Itoshima beach guesthouse surfing'
+    }
+];
+
+// Expose data globals so planner.js (IIFE scope) can access them via window.*
+window.locations = locations;
+window.regionCenters = regionCenters;
+window.restaurants = restaurants;
+window.transportGuide = transportGuide;
+window.accommodations = accommodations;
