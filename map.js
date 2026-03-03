@@ -379,3 +379,358 @@ document.querySelector('.welcome-message').addEventListener('click', function() 
     this.classList.remove('hidden');
     document.getElementById('info-content').classList.add('hidden');
 });
+
+// ============================================================
+// Route Optimization - Nearest Neighbor Algorithm
+// ============================================================
+
+let routePolyline = null;
+let routeNumberMarkers = [];
+
+function calculateDistance(lat1, lng1, lat2, lng2) {
+    const R = 6371;
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLng = (lng2 - lng1) * Math.PI / 180;
+    const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+              Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+              Math.sin(dLng/2) * Math.sin(dLng/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    return R * c;
+}
+
+function nearestNeighborRoute(points) {
+    if (points.length <= 1) return points;
+    const visited = [points[0]];
+    const remaining = points.slice(1);
+    while (remaining.length > 0) {
+        const last = visited[visited.length - 1];
+        let nearestIdx = 0;
+        let nearestDist = Infinity;
+        remaining.forEach((p, i) => {
+            const d = calculateDistance(last.lat, last.lng, p.lat, p.lng);
+            if (d < nearestDist) {
+                nearestDist = d;
+                nearestIdx = i;
+            }
+        });
+        visited.push(remaining.splice(nearestIdx, 1)[0]);
+    }
+    return visited;
+}
+
+function showOptimizedRoute() {
+    clearRoute();
+    const activeFilter = document.querySelector('.filter-btn.active').getAttribute('data-filter');
+    let targetLocations = locations;
+    if (activeFilter !== '전체') {
+        targetLocations = locations.filter(loc => loc.region === activeFilter);
+    }
+    if (targetLocations.length < 2) {
+        alert('경로를 표시하려면 2개 이상의 명소가 필요합니다. 지역을 선택해주세요.');
+        return;
+    }
+    const optimized = nearestNeighborRoute([...targetLocations]);
+    const latlngs = optimized.map(loc => [loc.lat, loc.lng]);
+
+    routePolyline = L.polyline(latlngs, {
+        color: '#10b981',
+        weight: 4,
+        opacity: 0.8,
+        dashArray: '10, 8',
+        smoothFactor: 1
+    }).addTo(map);
+
+    optimized.forEach((loc, idx) => {
+        const icon = L.divIcon({
+            className: '',
+            html: `<div class="route-number-icon">${idx + 1}</div>`,
+            iconSize: [28, 28],
+            iconAnchor: [14, 14]
+        });
+        const marker = L.marker([loc.lat, loc.lng], { icon: icon }).addTo(map);
+        marker.bindPopup(`<strong>${idx + 1}. ${loc.name}</strong><br>소요시간: 약 ${loc.duration || 30}분`);
+        routeNumberMarkers.push(marker);
+    });
+
+    map.fitBounds(routePolyline.getBounds().pad(0.1));
+
+    // Calculate total distance and show info
+    let totalDist = 0;
+    for (let i = 1; i < optimized.length; i++) {
+        totalDist += calculateDistance(optimized[i-1].lat, optimized[i-1].lng, optimized[i].lat, optimized[i].lng);
+    }
+    let totalVisitTime = optimized.reduce((sum, loc) => sum + (loc.duration || 30), 0);
+
+    const infoContent = document.getElementById('info-content');
+    const welcomeMessage = document.querySelector('.welcome-message');
+    welcomeMessage.classList.add('hidden');
+    infoContent.classList.remove('hidden');
+    infoContent.innerHTML = `
+        <h2>🗺️ 추천 경로 (${activeFilter})</h2>
+        <div class="route-info-panel">
+            <p><strong>총 ${optimized.length}곳</strong> | 이동 거리 약 ${totalDist.toFixed(1)}km | 관광 시간 약 ${Math.floor(totalVisitTime/60)}시간 ${totalVisitTime%60}분</p>
+        </div>
+        <div class="locations-list" style="margin-top: 1rem;">
+            ${optimized.map((loc, idx) => `
+                <div class="location-item" data-lat="${loc.lat}" data-lng="${loc.lng}" style="display: flex; gap: 0.75rem; align-items: flex-start;">
+                    <div class="route-number-icon" style="flex-shrink: 0;">${idx + 1}</div>
+                    <div>
+                        <h3>${loc.name}</h3>
+                        <p class="location-category">${loc.region}</p>
+                        <p style="font-size: 0.85rem; color: var(--text-muted);">⏱ ${loc.duration || 30}분${idx < optimized.length - 1 ? ' → 다음 장소까지 약 ' + calculateDistance(loc.lat, loc.lng, optimized[idx+1].lat, optimized[idx+1].lng).toFixed(1) + 'km' : ''}</p>
+                    </div>
+                </div>
+            `).join('')}
+        </div>
+    `;
+
+    document.querySelectorAll('.location-item').forEach(item => {
+        item.addEventListener('click', function() {
+            const lat = parseFloat(this.getAttribute('data-lat'));
+            const lng = parseFloat(this.getAttribute('data-lng'));
+            map.flyTo([lat, lng], 16, { duration: 1 });
+        });
+    });
+
+    document.getElementById('clear-route-btn').classList.remove('hidden');
+    document.getElementById('show-route-btn').classList.add('active');
+}
+
+function clearRoute() {
+    if (routePolyline) {
+        map.removeLayer(routePolyline);
+        routePolyline = null;
+    }
+    routeNumberMarkers.forEach(m => map.removeLayer(m));
+    routeNumberMarkers = [];
+    document.getElementById('clear-route-btn').classList.add('hidden');
+    document.getElementById('show-route-btn').classList.remove('active');
+}
+
+document.getElementById('show-route-btn').addEventListener('click', showOptimizedRoute);
+document.getElementById('clear-route-btn').addEventListener('click', function() {
+    clearRoute();
+    const welcomeMessage = document.querySelector('.welcome-message');
+    const infoContent = document.getElementById('info-content');
+    welcomeMessage.classList.remove('hidden');
+    infoContent.classList.add('hidden');
+});
+
+// ============================================================
+// Layer Toggle - Restaurants & Hotels markers
+// ============================================================
+
+const restaurantIcon = L.icon({
+    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-orange.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34], shadowSize: [41, 41]
+});
+
+const hotelIcon = L.icon({
+    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-violet.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34], shadowSize: [41, 41]
+});
+
+let restaurantMarkerGroup = L.markerClusterGroup({
+    spiderfyOnMaxZoom: true, showCoverageOnHover: false,
+    zoomToBoundsOnClick: false, disableClusteringAtZoom: 15, maxClusterRadius: 60
+});
+
+let hotelMarkerGroup = L.markerClusterGroup({
+    spiderfyOnMaxZoom: true, showCoverageOnHover: false,
+    zoomToBoundsOnClick: false, disableClusteringAtZoom: 15, maxClusterRadius: 60
+});
+
+function initRestaurantMarkers() {
+    if (typeof restaurants === 'undefined') return;
+    restaurants.forEach(r => {
+        const marker = L.marker([r.lat, r.lng], { icon: restaurantIcon })
+            .bindPopup(`<strong>🍜 ${r.name}</strong><br>${r.category} | ${r.priceRange}`);
+        marker.locationData = r;
+        marker.on('click', function() {
+            showRestaurantDetails(r);
+        });
+        restaurantMarkerGroup.addLayer(marker);
+    });
+}
+
+function initHotelMarkers() {
+    if (typeof accommodations === 'undefined') return;
+    accommodations.forEach(a => {
+        const marker = L.marker([a.lat, a.lng], { icon: hotelIcon })
+            .bindPopup(`<strong>🏨 ${a.name}</strong><br>${a.type} | ${a.priceRange}`);
+        marker.locationData = a;
+        marker.on('click', function() {
+            showAccommodationDetails(a);
+        });
+        hotelMarkerGroup.addLayer(marker);
+    });
+}
+
+function showRestaurantDetails(r) {
+    const welcomeMessage = document.querySelector('.welcome-message');
+    const infoContent = document.getElementById('info-content');
+    welcomeMessage.classList.add('hidden');
+    infoContent.classList.remove('hidden');
+
+    const imgSrc = r.imageQuery
+        ? `https://source.unsplash.com/featured/400x200/?${encodeURIComponent(r.imageQuery)}`
+        : '';
+
+    infoContent.innerHTML = `
+        ${imgSrc ? `<div class="location-image-container"><img src="${imgSrc}" alt="${r.name}" class="location-image" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'location-image-fallback\\'>🍜</div>'"></div>` : ''}
+        <h2>${r.name}</h2>
+        <p><span class="restaurant-card-category">${r.category}</span></p>
+        <p class="location-description">${r.description}</p>
+        <div class="restaurant-card-must-try">⭐ 대표메뉴: ${r.mustTry}</div>
+        <div class="location-info"><strong>⏰ 영업시간:</strong> ${r.hours}</div>
+        <div class="location-info"><strong>💴 가격대:</strong> ${r.priceRange}</div>
+        <div class="location-info"><strong>📍 지역:</strong> ${r.region}</div>
+        <div class="location-actions">
+            <a href="https://www.google.com/maps/search/?api=1&query=${r.lat},${r.lng}" target="_blank" rel="noopener noreferrer" class="maps-link">📍 Google Maps에서 보기</a>
+        </div>
+    `;
+}
+
+function showAccommodationDetails(a) {
+    const welcomeMessage = document.querySelector('.welcome-message');
+    const infoContent = document.getElementById('info-content');
+    welcomeMessage.classList.add('hidden');
+    infoContent.classList.remove('hidden');
+
+    const imgSrc = a.imageQuery
+        ? `https://source.unsplash.com/featured/400x200/?${encodeURIComponent(a.imageQuery)}`
+        : '';
+    const typeClass = a.type === '료칸' ? 'ryokan' : a.type === '게스트하우스' ? 'guesthouse' : 'hotel';
+
+    infoContent.innerHTML = `
+        ${imgSrc ? `<div class="location-image-container"><img src="${imgSrc}" alt="${a.name}" class="location-image" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'location-image-fallback\\'>🏨</div>'"></div>` : ''}
+        <h2>${a.name}</h2>
+        <p><span class="accommodation-card-type ${typeClass}">${a.type}</span></p>
+        <p class="accommodation-card-price">${a.priceRange}</p>
+        <p class="location-description">${a.description}</p>
+        ${a.features ? `<div class="accommodation-card-features">${a.features.map(f => `<span class="accommodation-feature-tag">${f}</span>`).join('')}</div>` : ''}
+        ${a.nearAttractions ? `<div class="accommodation-card-nearby"><strong>근처 관광지:</strong> ${a.nearAttractions.join(', ')}</div>` : ''}
+        <div class="location-actions">
+            <a href="https://www.google.com/maps/search/?api=1&query=${a.lat},${a.lng}" target="_blank" rel="noopener noreferrer" class="maps-link">📍 Google Maps에서 보기</a>
+        </div>
+    `;
+}
+
+// Initialize extra layers
+initRestaurantMarkers();
+initHotelMarkers();
+
+// Layer toggle event listeners
+const layerToggles = document.querySelectorAll('.layer-toggle');
+layerToggles.forEach(toggle => {
+    toggle.addEventListener('click', function() {
+        const layer = this.getAttribute('data-layer');
+        this.classList.toggle('active');
+        const isActive = this.classList.contains('active');
+
+        if (layer === 'attractions') {
+            if (isActive) {
+                map.addLayer(markers);
+            } else {
+                map.removeLayer(markers);
+            }
+        } else if (layer === 'restaurants') {
+            if (isActive) {
+                map.addLayer(restaurantMarkerGroup);
+            } else {
+                map.removeLayer(restaurantMarkerGroup);
+            }
+        } else if (layer === 'hotels') {
+            if (isActive) {
+                map.addLayer(hotelMarkerGroup);
+            } else {
+                map.removeLayer(hotelMarkerGroup);
+            }
+        }
+    });
+});
+
+// ============================================================
+// Mobile Bottom Sheet
+// ============================================================
+
+(function initBottomSheet() {
+    const infoPanel = document.getElementById('info-panel');
+    const handle = document.querySelector('.bottom-sheet-handle');
+    if (!handle || !infoPanel) return;
+
+    let startY = 0;
+    let startTranslate = 0;
+    let isDragging = false;
+
+    function isMobile() {
+        return window.innerWidth <= 768;
+    }
+
+    handle.addEventListener('touchstart', function(e) {
+        if (!isMobile()) return;
+        isDragging = true;
+        startY = e.touches[0].clientY;
+        const transform = window.getComputedStyle(infoPanel).transform;
+        if (transform && transform !== 'none') {
+            const matrix = new DOMMatrix(transform);
+            startTranslate = matrix.m42;
+        } else {
+            startTranslate = 0;
+        }
+        infoPanel.style.transition = 'none';
+    });
+
+    handle.addEventListener('touchmove', function(e) {
+        if (!isDragging || !isMobile()) return;
+        const currentY = e.touches[0].clientY;
+        const diff = currentY - startY;
+        const newTranslate = Math.max(0, startTranslate + diff);
+        infoPanel.style.transform = `translateY(${newTranslate}px)`;
+        e.preventDefault();
+    }, { passive: false });
+
+    handle.addEventListener('touchend', function() {
+        if (!isDragging || !isMobile()) return;
+        isDragging = false;
+        infoPanel.style.transition = 'transform 0.3s ease';
+        const transform = window.getComputedStyle(infoPanel).transform;
+        const matrix = new DOMMatrix(transform);
+        const currentY = matrix.m42;
+        const panelHeight = infoPanel.offsetHeight;
+
+        if (currentY > panelHeight * 0.4) {
+            infoPanel.style.transform = `translateY(calc(100% - 60px))`;
+        } else {
+            infoPanel.style.transform = 'translateY(0)';
+        }
+    });
+
+    // Tap handle to toggle
+    handle.addEventListener('click', function() {
+        if (!isMobile()) return;
+        const transform = window.getComputedStyle(infoPanel).transform;
+        const matrix = new DOMMatrix(transform);
+        const currentY = matrix.m42;
+        infoPanel.style.transition = 'transform 0.3s ease';
+        if (currentY > 30) {
+            infoPanel.style.transform = 'translateY(0)';
+        } else {
+            infoPanel.style.transform = `translateY(calc(100% - 60px))`;
+        }
+    });
+})();
+
+// Add image to location details
+const originalShowSingleLocationDetails = showSingleLocationDetails;
+showSingleLocationDetails = function(location) {
+    originalShowSingleLocationDetails(location);
+    const infoContent = document.getElementById('info-content');
+    if (location.imageQuery) {
+        const imgSrc = `https://source.unsplash.com/featured/400x200/?${encodeURIComponent(location.imageQuery)}`;
+        const imgHTML = `<div class="location-image-container"><img src="${imgSrc}" alt="${location.name}" class="location-image" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'location-image-fallback\\'>📍</div>'"><div class="location-image-badge">Unsplash</div></div>`;
+        infoContent.insertAdjacentHTML('afterbegin', imgHTML);
+    }
+};

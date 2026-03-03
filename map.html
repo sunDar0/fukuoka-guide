@@ -8,6 +8,11 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
     <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#f97316">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="icon-192.svg">
 </head>
 <body>
     <div class="container">
@@ -30,10 +35,20 @@
             <div id="search-container">
                 <input type="text" id="search-input" placeholder="명소 검색...">
             </div>
+            <div class="layer-toggles">
+                <button class="layer-toggle attractions active" data-layer="attractions">📍 관광지</button>
+                <button class="layer-toggle restaurants" data-layer="restaurants">🍜 맛집</button>
+                <button class="layer-toggle hotels" data-layer="hotels">🏨 숙소</button>
+            </div>
+            <div class="route-controls">
+                <button class="route-btn" id="show-route-btn">🗺️ 추천 경로 보기</button>
+                <button class="route-btn reset hidden" id="clear-route-btn">✕ 경로 초기화</button>
+            </div>
         </div>
         <div class="content-wrapper">
             <div id="map"></div>
             <div id="info-panel">
+                <div class="bottom-sheet-handle"></div>
                 <div class="welcome-message">
                     <h2>후쿠오카에 오신 것을 환영합니다!</h2>
                     <p>지도 위의 마커를 클릭하거나 상단의 필터를 이용해 여행지를 탐색해보세요.</p>
@@ -47,5 +62,10 @@
     <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
     <script src="data.js"></script>
     <script src="map.js"></script>
+    <script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js');
+}
+</script>
 </body>
 </html>
