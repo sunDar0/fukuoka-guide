@@ -60,7 +60,7 @@ const locations = [
         lat: 33.5898,
         lng: 130.4207,
         region: '하카타',
-        description: '후쿠오카의 관문. JR 하카타시티 내 아뮤플라자, 한큐백화점, 옥상 정원 등 쇼핑과 맛집이 밀집해 있습니다.',
+        description: '후쿠오카의 관문. JR 하카타시티 내 아뮤플라자, 한큐백화점, 옥상 정원 등 쇼핑과 맛집이 밀집해 있습니다. 12월에는 역 앞 광장 일루미네이션이 저녁에 점등됩니다.',
         hours: '10:00~21:00 (상점)',
         admission: '무료',
         website: 'https://www.jrhakatacity.com/',
@@ -140,7 +140,7 @@ const locations = [
     },
 
     // ────────────────────────────────────────
-    // 텐진/나카스 (Tenjin/Nakasu) — 7 spots
+    // 텐진/나카스 (Tenjin/Nakasu) — 8 spots
     // ────────────────────────────────────────
     {
         name: '나카스 야타이 (포장마차)',
@@ -178,7 +178,7 @@ const locations = [
         lat: 33.5888,
         lng: 130.4035,
         region: '텐진/나카스',
-        description: '건물 외벽 전체가 녹지로 덮인 독특한 건축물. "스텝 가든"은 옥상까지 76종 37,000그루의 식물이 자랍니다.',
+        description: '건물 외벽 전체가 녹지로 덮인 독특한 건축물. "스텝 가든"은 옥상까지 76종 37,000그루의 식물이 자랍니다. 12월에는 야간 일루미네이션이 점등되며, 스텝 가든 야외 등반은 겨울엔 생략을 권장합니다.',
         hours: '10:00~18:00 (정원 상시)',
         admission: '무료',
         duration: 30,
@@ -238,6 +238,20 @@ const locations = [
         duration: 75,
         childFriendly: false,
         imageQuery: 'Kirin Beer Factory Fukuoka tour',
+        nearbyHotels: []
+    },
+    {
+        name: '후쿠오카 크리스마스 마켓',
+        lat: 33.5901,
+        lng: 130.4014,
+        region: '텐진/나카스',
+        description: '12월 한정 크리스마스 마켓·일루미네이션. 후쿠오카 시청 앞 후레아이광장과 하카타역 광장을 중심으로 도심이 빛으로 이어집니다. 글뤼바인·먹거리 부스가 있어 가족 야간 코스로 좋습니다(유아·노부모는 방한 후 짧게).',
+        hours: '12월 한정 (매년 11월 중순~12/25경), 평일 17:00~23:00 / 주말 12:00~23:00 (해마다 변동)',
+        admission: '무료 (음식·음료 별도)',
+        website: 'https://www.crossroadfukuoka.jp/kr/event/13738',
+        duration: 60,
+        childFriendly: true,
+        imageQuery: 'Fukuoka Christmas Market illumination Tenjin Hakata',
         nearbyHotels: []
     },
 
@@ -328,14 +342,14 @@ const locations = [
     },
 
     // ────────────────────────────────────────
-    // 후쿠오카 시내 (Fukuoka City) — 9 spots
+    // 후쿠오카 시내 (Fukuoka City) — 10 spots
     // ────────────────────────────────────────
     {
         name: '후쿠오카 타워',
         lat: 33.5935,
         lng: 130.3515,
         region: '후쿠오카 시내',
-        description: '234m 높이의 해변 타워. 123m 전망대에서 후쿠오카 시내와 하카타만을 360도 파노라마로 감상할 수 있습니다.',
+        description: '234m 높이의 해변 타워. 123m 전망대에서 후쿠오카 시내와 하카타만을 360도 파노라마로 감상할 수 있습니다. 12월에는 외벽에 대형 크리스마스 트리 일루미네이션이 점등돼 야경 명소가 됩니다.',
         hours: '09:30~22:00',
         admission: '800엔',
         website: 'https://www.fukuokatower.co.jp/',
@@ -452,6 +466,20 @@ const locations = [
         duration: 180,
         childFriendly: true,
         imageQuery: 'Nokonoshima Island Park Fukuoka flowers',
+        nearbyHotels: []
+    },
+    {
+        name: '마린월드 우미노나카미치',
+        lat: 33.6611,
+        lng: 130.3634,
+        region: '후쿠오카 시내',
+        description: '규슈 바다를 테마로 한 대형 수족관. 돌고래·바다사자 쇼와 대형 수조가 인기로, 실내라 겨울·우천에 강하고 2살 유아도 즐겁습니다(3세 이하 무료).',
+        hours: '09:30~17:30 (계절별 변동, 겨울 단축 운영)',
+        admission: '성인 2,500엔, 어린이 1,200엔 (3세 이하 무료)',
+        website: 'https://marine-world.jp/',
+        duration: 120,
+        childFriendly: true,
+        imageQuery: 'Marine World Uminonakamichi Fukuoka aquarium dolphin',
         nearbyHotels: []
     },
 
