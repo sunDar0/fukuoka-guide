@@ -2408,6 +2408,7 @@ h1 {
   /* Mobile section nav as bottom tab bar */
   .section-nav {
     position: fixed;
+    top: auto; /* 기본 규칙의 top:16px를 해제 — fixed에서 top+bottom 동시 적용 시 세로로 늘어나 콘텐츠를 덮는 문제 방지 */
     bottom: 0;
     left: 0;
     right: 0;
