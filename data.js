@@ -342,7 +342,7 @@ const locations = [
     },
 
     // ────────────────────────────────────────
-    // 후쿠오카 시내 (Fukuoka City) — 10 spots
+    // 후쿠오카 시내 (Fukuoka City) — 11 spots
     // ────────────────────────────────────────
     {
         name: '후쿠오카 타워',
@@ -480,6 +480,20 @@ const locations = [
         duration: 120,
         childFriendly: true,
         imageQuery: 'Marine World Uminonakamichi Fukuoka aquarium dolphin',
+        nearbyHotels: []
+    },
+    {
+        name: '테리하 스파 리조트',
+        lat: 33.6658,
+        lng: 130.4164,
+        region: '후쿠오카 시내',
+        description: '아일랜드시티에 자리한 대형 천연 온천·찜질 복합시설. 여러 노천탕과 키즈&패밀리룸을 갖춰 가족이 종일 머물기 좋습니다. 마린월드와 같은 권역이라 묶어 다니기 편하고, 추운 겨울 한낮 재충전 코스로 제격입니다.',
+        hours: '08:00~익일 01:00 (대욕장 ~익일 02:00)',
+        admission: '입욕 성인 ¥850~, 3세~초등 ¥590~ (스파+암반욕 별도, 요금 변동 확인)',
+        website: 'https://terihaspa.jp/',
+        duration: 150,
+        childFriendly: true,
+        imageQuery: 'Teriha Spa Resort Fukuoka Island City onsen',
         nearbyHotels: []
     },
 
