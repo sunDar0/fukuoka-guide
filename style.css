@@ -261,13 +261,16 @@ h1 {
   border-color: var(--primary-color);
 }
 
-/* 정보 패널: 너비를 고정해 콘텐츠가 길어져도 #map(flex:1)을 밀어내지 않게 한다 */
-#info-panel {
-  flex: 0 0 400px;
-  min-width: 0;
-  height: calc(100vh - 300px);
-  min-height: 600px;
-  overflow-y: auto;
+/* 정보 패널(데스크톱 전용): 너비를 고정해 콘텐츠가 길어져도 #map(flex:1)을 밀어내지 않게 한다.
+   모바일(<=768px)은 아래 bottom-sheet 규칙을 쓰므로 이 규칙이 새지 않도록 min-width:769px로 한정한다. */
+@media (min-width: 769px) {
+  #info-panel {
+    flex: 0 0 400px;
+    min-width: 0;
+    height: calc(100vh - 300px);
+    min-height: 600px;
+    overflow-y: auto;
+  }
 }
 
 /* Leaflet Popup Customization */
