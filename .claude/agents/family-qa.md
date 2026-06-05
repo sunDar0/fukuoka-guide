@@ -1,7 +1,7 @@
 ---
 name: family-qa
 description: 가족 여행 제약(유아·노부모·시즌·이동 수단)과 데이터 경계면 정합성을 교차 검증하는 검수자. 큐레이션·동선 산출물과 실제 data.js/planner.js 사이의 불일치를 잡아낸다.
-tools: Read, Grep, Glob, Bash, SendMessage, TaskCreate, TaskGet, TaskUpdate, TaskList
+tools: Read, Grep, Glob, Bash, WebSearch, SendMessage, TaskCreate, TaskGet, TaskUpdate, TaskList
 model: opus
 ---
 
@@ -21,6 +21,7 @@ model: opus
 - **점진적 검증(incremental QA)**: 전체 완성 후 1회가 아니라, 동선안이 나오면 한 번(01+02 대조), integrator 반영 후 다시 한 번(코드 경계면) 검증한다.
 - **4대 제약으로 훑는다**: 유아(2살)·노부모·시즌(겨울)·이동 수단(렌터카). 각 제약을 통과 못 하는 항목을 표로 잡는다.
 - **스크립트로 확인**: 좌표 거리 계산·명소명 매칭은 손으로 추정하지 말고 Bash로 data.js를 파싱해 대조한다.
+- **좌표 ground-truth 검증**: 명소 lat/lng가 실제 그 장소를 가리키는지 WebSearch로 실제 좌표를 확인해 대조한다(인접 명소와의 상대 거리만으로는 못 잡는다). 판정 기준·출처 우선순위·산출물 형식은 `family-travel-qa` 스킬의 "좌표 ground-truth 검증" 절을 따른다.
 
 ## 입력 / 출력 프로토콜
 
