@@ -660,61 +660,65 @@ layerToggles.forEach(toggle => {
     let startY = 0;
     let startTranslate = 0;
     let isDragging = false;
+    let hasMoved = false; // 드래그였는지 단순 탭이었는지 구분
 
     function isMobile() {
         return window.innerWidth <= 768;
     }
 
+    function currentTranslateY() {
+        const transform = window.getComputedStyle(infoPanel).transform;
+        return (transform && transform !== 'none') ? new DOMMatrix(transform).m42 : 0;
+    }
+
+    function collapse() {
+        infoPanel.style.transition = 'transform 0.3s ease';
+        infoPanel.style.transform = 'translateY(calc(100% - 60px))';
+        infoPanel.classList.add('sheet-collapsed');
+    }
+
+    function expand() {
+        infoPanel.style.transition = 'transform 0.3s ease';
+        infoPanel.style.transform = 'translateY(0)';
+        infoPanel.classList.remove('sheet-collapsed');
+    }
+
     handle.addEventListener('touchstart', function(e) {
         if (!isMobile()) return;
         isDragging = true;
+        hasMoved = false;
         startY = e.touches[0].clientY;
-        const transform = window.getComputedStyle(infoPanel).transform;
-        if (transform && transform !== 'none') {
-            const matrix = new DOMMatrix(transform);
-            startTranslate = matrix.m42;
-        } else {
-            startTranslate = 0;
-        }
+        startTranslate = currentTranslateY();
         infoPanel.style.transition = 'none';
     });
 
     handle.addEventListener('touchmove', function(e) {
         if (!isDragging || !isMobile()) return;
-        const currentY = e.touches[0].clientY;
-        const diff = currentY - startY;
-        const newTranslate = Math.max(0, startTranslate + diff);
-        infoPanel.style.transform = `translateY(${newTranslate}px)`;
+        const diff = e.touches[0].clientY - startY;
+        if (Math.abs(diff) > 4) hasMoved = true;
+        infoPanel.style.transform = `translateY(${Math.max(0, startTranslate + diff)}px)`;
         e.preventDefault();
     }, { passive: false });
 
     handle.addEventListener('touchend', function() {
         if (!isDragging || !isMobile()) return;
         isDragging = false;
-        infoPanel.style.transition = 'transform 0.3s ease';
-        const transform = window.getComputedStyle(infoPanel).transform;
-        const matrix = new DOMMatrix(transform);
-        const currentY = matrix.m42;
-        const panelHeight = infoPanel.offsetHeight;
-
-        if (currentY > panelHeight * 0.4) {
-            infoPanel.style.transform = `translateY(calc(100% - 60px))`;
+        if (!hasMoved) return; // 단순 탭은 click 핸들러가 토글 처리
+        if (currentTranslateY() > infoPanel.offsetHeight * 0.4) {
+            collapse();
         } else {
-            infoPanel.style.transform = 'translateY(0)';
+            expand();
         }
     });
 
-    // Tap handle to toggle
+    // 핸들 탭/클릭으로 접기·펴기 토글 (드래그가 아닐 때만)
     handle.addEventListener('click', function() {
         if (!isMobile()) return;
-        const transform = window.getComputedStyle(infoPanel).transform;
-        const matrix = new DOMMatrix(transform);
-        const currentY = matrix.m42;
-        infoPanel.style.transition = 'transform 0.3s ease';
-        if (currentY > 30) {
-            infoPanel.style.transform = 'translateY(0)';
+        if (hasMoved) { hasMoved = false; return; }
+        if (currentTranslateY() > 30) {
+            expand();
         } else {
-            infoPanel.style.transform = `translateY(calc(100% - 60px))`;
+            collapse();
         }
     });
 })();

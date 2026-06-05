@@ -549,6 +549,56 @@ h1 {
   animation: fadeIn 0.6s ease-out;
 }
 
+/* 시트/패널 안 명소 리스트 — 카드형 구분 + 클릭 가능 표시 */
+.locations-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+.location-item {
+  position: relative;
+  padding: var(--spacing-md);
+  padding-right: calc(var(--spacing-md) + 18px);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+.location-item:hover {
+  background: rgba(249, 115, 22, 0.08);
+  border-color: var(--primary-color);
+  transform: translateX(2px);
+}
+.location-item::after {
+  content: '›';
+  position: absolute;
+  right: var(--spacing-md);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  font-size: 1.5rem;
+  line-height: 1;
+}
+.location-item:hover::after {
+  color: var(--primary-color);
+}
+.location-item h3 {
+  margin: 0 0 4px;
+  font-size: 1rem;
+}
+.location-item .location-category {
+  margin: 0 0 6px;
+  font-size: 0.75rem;
+  color: var(--primary-color);
+}
+.location-item .location-description {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -2363,14 +2413,52 @@ h1 {
   .content-wrapper {
     position: relative;
     flex-direction: column;
-    height: calc(100vh - 200px);
+    height: auto;
     min-height: auto;
   }
 
   #map {
-    height: 100% !important;
-    min-height: auto !important;
+    height: 55vh !important;
+    min-height: 55vh !important;
     border-radius: var(--radius-md);
+  }
+
+  /* 모바일 헤더 압축 — 지도 공간 확보 (헤더가 화면 40%를 먹어 지도가 찌그러지던 문제) */
+  .header {
+    padding: var(--spacing-xs) var(--spacing-sm);
+  }
+  .header h1 {
+    font-size: 1.15rem;
+    margin: 2px 0 6px;
+  }
+  .nav-links {
+    margin-bottom: 6px;
+  }
+  .nav-link {
+    padding: 0.3rem 0.7rem;
+    font-size: 0.8rem;
+  }
+  #search-container {
+    margin: 6px 0;
+  }
+  .layer-toggles {
+    margin: 6px 0;
+  }
+  .route-controls {
+    margin: 6px 0 0;
+  }
+  #filter-container {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  #filter-container::-webkit-scrollbar {
+    display: none;
+  }
+  #filter-container .filter-btn {
+    flex-shrink: 0;
   }
 
   #info-panel {
@@ -2379,7 +2467,7 @@ h1 {
     left: 0;
     right: 0;
     width: 100% !important;
-    max-height: 70vh;
+    max-height: 35vh; /* 지도가 화면 위쪽을 충분히 차지하도록 시트 높이 제한 */
     min-height: 60px;
     background: var(--bg-dark);
     backdrop-filter: blur(20px);
@@ -2394,14 +2482,35 @@ h1 {
     animation: none;
   }
 
-  .bottom-sheet-handle {
+  /* 시트 상단 토글 바: 탭하면 목록 접기/펴기. 시트가 스크롤돼도 항상 상단 고정.
+     셀렉터를 #info-panel로 한정해 미디어쿼리 밖 .bottom-sheet-handle{display:none}보다 특성을 높인다. */
+  #info-panel .bottom-sheet-handle {
+    display: block;
+    width: 100%;
+    padding: 10px 0 6px;
+    text-align: center;
+    cursor: pointer;
+    position: sticky;
+    top: 0;
+    background: var(--bg-dark);
+    z-index: 1;
+  }
+  .bottom-sheet-handle::before {
+    content: '';
     display: block;
     width: 40px;
     height: 4px;
     background: var(--text-muted);
     border-radius: 2px;
-    margin: 12px auto 8px;
-    cursor: grab;
+    margin: 0 auto 6px;
+  }
+  .bottom-sheet-handle::after {
+    content: '▾ 목록 접기';
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+  #info-panel.sheet-collapsed .bottom-sheet-handle::after {
+    content: '▴ 목록 펼치기';
   }
 
   .bottom-sheet-collapsed #info-panel {
