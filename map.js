@@ -574,12 +574,10 @@ function showRestaurantDetails(r) {
     welcomeMessage.classList.add('hidden');
     infoContent.classList.remove('hidden');
 
-    const imgSrc = r.imageQuery
-        ? `https://source.unsplash.com/featured/400x200/?${encodeURIComponent(r.imageQuery)}`
-        : '';
+    const imgSrc = window.imageSrc(r.imageQuery);
 
     infoContent.innerHTML = `
-        ${imgSrc ? `<div class="location-image-container"><img src="${imgSrc}" alt="${r.name}" class="location-image" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'location-image-fallback\\'>🍜</div>'"></div>` : ''}
+        ${imgSrc ? `<div class="location-image-container"><img src="${imgSrc}" alt="${r.name}" class="location-image" loading="lazy" onerror="this.closest('.location-image-container').style.display='none'"></div>` : ''}
         <h2>${r.name}</h2>
         <p><span class="restaurant-card-category">${r.category}</span></p>
         <p class="location-description">${r.description}</p>
@@ -599,13 +597,11 @@ function showAccommodationDetails(a) {
     welcomeMessage.classList.add('hidden');
     infoContent.classList.remove('hidden');
 
-    const imgSrc = a.imageQuery
-        ? `https://source.unsplash.com/featured/400x200/?${encodeURIComponent(a.imageQuery)}`
-        : '';
+    const imgSrc = window.imageSrc(a.imageQuery);
     const typeClass = a.type === '료칸' ? 'ryokan' : a.type === '게스트하우스' ? 'guesthouse' : 'hotel';
 
     infoContent.innerHTML = `
-        ${imgSrc ? `<div class="location-image-container"><img src="${imgSrc}" alt="${a.name}" class="location-image" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'location-image-fallback\\'>🏨</div>'"></div>` : ''}
+        ${imgSrc ? `<div class="location-image-container"><img src="${imgSrc}" alt="${a.name}" class="location-image" loading="lazy" onerror="this.closest('.location-image-container').style.display='none'"></div>` : ''}
         <h2>${a.name}</h2>
         <p><span class="accommodation-card-type ${typeClass}">${a.type}</span></p>
         <p class="accommodation-card-price">${a.priceRange}</p>
@@ -728,9 +724,9 @@ const originalShowSingleLocationDetails = showSingleLocationDetails;
 showSingleLocationDetails = function(location) {
     originalShowSingleLocationDetails(location);
     const infoContent = document.getElementById('info-content');
-    if (location.imageQuery) {
-        const imgSrc = `https://source.unsplash.com/featured/400x200/?${encodeURIComponent(location.imageQuery)}`;
-        const imgHTML = `<div class="location-image-container"><img src="${imgSrc}" alt="${location.name}" class="location-image" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'location-image-fallback\\'>📍</div>'"><div class="location-image-badge">Unsplash</div></div>`;
+    const imgSrc = window.imageSrc(location.imageQuery);
+    if (imgSrc) {
+        const imgHTML = `<div class="location-image-container"><img src="${imgSrc}" alt="${location.name}" class="location-image" loading="lazy" onerror="this.closest('.location-image-container').style.display='none'"></div>`;
         infoContent.insertAdjacentHTML('afterbegin', imgHTML);
     }
 };

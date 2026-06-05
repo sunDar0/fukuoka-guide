@@ -1274,7 +1274,7 @@
                 if (desc.length > 80) desc = desc.substring(0, 80) + '...';
                 var cat = a.region || a.category || '';
                 var admission = a.admission || '무료';
-                var imgSrc = a.imageQuery ? 'https://source.unsplash.com/featured/400x150/?' + encodeURIComponent(a.imageQuery) : '';
+                var imgSrc = window.imageSrc(a.imageQuery);
                 html +=
                     '<div class="attraction-card">' +
                         (imgSrc ? '<img src="' + imgSrc + '" alt="' + a.name + '" class="attraction-card-image" loading="lazy" onerror="this.style.display=\'none\'">' : '') +
@@ -1359,7 +1359,7 @@
         rests.forEach(function(r) {
             var desc = r.description || '';
             if (desc.length > 100) desc = desc.substring(0, 100) + '...';
-            var imgSrc = r.imageQuery ? 'https://source.unsplash.com/featured/400x200/?' + encodeURIComponent(r.imageQuery) : '';
+            var imgSrc = window.imageSrc(r.imageQuery);
 
             html +=
                 '<div class="restaurant-card" data-category="' + r.category + '" data-region="' + r.region + '">' +
@@ -1523,7 +1523,7 @@
             var desc = a.description || '';
             if (desc.length > 100) desc = desc.substring(0, 100) + '...';
             var typeClass = a.type === '료칸' ? 'ryokan' : a.type === '게스트하우스' ? 'guesthouse' : 'hotel';
-            var imgSrc = a.imageQuery ? 'https://source.unsplash.com/featured/400x200/?' + encodeURIComponent(a.imageQuery) : '';
+            var imgSrc = a.image || '';
 
             html +=
                 '<div class="accommodation-card" data-type="' + a.type + '" data-price="' + (a.priceCategory || 'mid') + '" data-region="' + a.region + '">' +

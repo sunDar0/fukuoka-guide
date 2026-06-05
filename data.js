@@ -1718,3 +1718,11 @@ window.regionCenters = regionCenters;
 window.restaurants = restaurants;
 window.transportGuide = transportGuide;
 window.accommodations = accommodations;
+
+// imageQuery에서 로컬 이미지 경로(images/{slug}.jpg)를 생성한다.
+// 파일이 없으면 각 렌더의 onerror가 이미지 영역을 숨긴다(폴백 아이콘 없음).
+window.imageSrc = function (q) {
+    if (!q) return '';
+    var slug = q.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+    return 'images/' + slug + '.jpg';
+};
