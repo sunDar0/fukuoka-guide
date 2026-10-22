@@ -4,11 +4,10 @@ document.documentElement.setAttribute('data-theme', 'dark');
 // Initialize map centered on Fukuoka
 const map = L.map('map').setView([33.59, 130.40], 10);
 
-// Add CartoDB Light tile layer
-L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-    subdomains: 'abcd',
-    maxZoom: 20
+// Add OpenStreetMap tile layer (CARTO basemaps now require an API key)
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    maxZoom: 19
 }).addTo(map);
 
 // Create marker cluster group
@@ -41,6 +40,9 @@ const selectedIcon = L.icon({
 
 let currentSelectedMarker = null;
 let allMarkers = [];
+// 패널 내용을 새로 그린 뒤 부른다. 스크롤을 맨 위로 돌리고, 모바일 바텀시트가 접혀 있으면 펼친다.
+// 실제 구현은 initBottomSheet에서 채운다.
+let expandBottomSheet = () => {};
 
 // Create markers from locations data
 locations.forEach(location => {
@@ -113,7 +115,7 @@ function showSingleLocationDetails(location) {
     if (location.website) {
         detailsHTML += `
             <div class="location-info">
-                <strong>🌐 웹사이트:</strong> <a href="${location.website}" target="_blank" rel="noopener noreferrer">방문하기</a>
+                <strong>🌐 웹사이트:</strong> <a href="${location.website}" target="_blank" rel="noopener noreferrer" class="maps-link">방문하기</a>
             </div>
         `;
     }
@@ -151,6 +153,7 @@ function showSingleLocationDetails(location) {
     }
 
     infoContent.innerHTML = detailsHTML;
+    expandBottomSheet();
 }
 
 // Display cluster locations
@@ -178,6 +181,7 @@ function displayClusterLocations(locationsInCluster) {
 
     listHTML += '</div>';
     infoContent.innerHTML = listHTML;
+    expandBottomSheet();
 
     // Add click handlers to location items
     document.querySelectorAll('.location-item').forEach(item => {
@@ -221,6 +225,7 @@ function displayFilteredLocationsList(filter, searchTerm = '') {
             <h2>검색 결과</h2>
             <p>검색 결과가 없습니다.</p>
         `;
+        expandBottomSheet();
         return;
     }
 
@@ -244,6 +249,7 @@ function displayFilteredLocationsList(filter, searchTerm = '') {
 
     listHTML += '</div>';
     infoContent.innerHTML = listHTML;
+    expandBottomSheet();
 
     // Add click handlers to location items
     document.querySelectorAll('.location-item').forEach(item => {
@@ -279,6 +285,10 @@ filterButtons.forEach(button => {
             currentSelectedMarker.setIcon(defaultIcon);
             currentSelectedMarker = null;
         }
+
+        // 이전 지역의 추천 경로가 남지 않도록 지운다
+        clearRoute();
+        applyRegionToExtraLayers(filter);
 
         // Filter markers
         markers.clearLayers();
@@ -371,6 +381,7 @@ document.querySelector('.welcome-message').addEventListener('click', function() 
 
     markers.clearLayers();
     allMarkers.forEach(marker => markers.addLayer(marker));
+    applyRegionToExtraLayers('전체');
 
     // Reset map view
     map.setView([33.59, 130.40], 10);
@@ -418,15 +429,29 @@ function nearestNeighborRoute(points) {
     return visited;
 }
 
+// 경로를 그릴 수 없을 때 정보 패널에 안내한다. alert는 쓰지 않는다.
+function showRouteNotice(message) {
+    const infoContent = document.getElementById('info-content');
+    document.querySelector('.welcome-message').classList.add('hidden');
+    infoContent.classList.remove('hidden');
+    infoContent.innerHTML = `
+        <h2>🗺️ 추천 경로</h2>
+        <p>${message}</p>
+    `;
+    expandBottomSheet();
+}
+
 function showOptimizedRoute() {
     clearRoute();
     const activeFilter = document.querySelector('.filter-btn.active').getAttribute('data-filter');
-    let targetLocations = locations;
-    if (activeFilter !== '전체') {
-        targetLocations = locations.filter(loc => loc.region === activeFilter);
+    if (activeFilter === '전체') {
+        // 전체(62곳)를 한 줄로 잇는 경로는 의미가 없어 지역 선택을 안내한다.
+        showRouteNotice('추천 경로는 지역별로 보여드립니다. 상단에서 지역을 먼저 선택해주세요.');
+        return;
     }
+    const targetLocations = locations.filter(loc => loc.region === activeFilter);
     if (targetLocations.length < 2) {
-        alert('경로를 표시하려면 2개 이상의 명소가 필요합니다. 지역을 선택해주세요.');
+        showRouteNotice(`${activeFilter} 지역은 명소가 ${targetLocations.length}곳이라 경로를 만들 수 없어요. 지도에서 바로 확인하거나 다른 지역을 선택해주세요.`);
         return;
     }
     const optimized = nearestNeighborRoute([...targetLocations]);
@@ -483,6 +508,7 @@ function showOptimizedRoute() {
             `).join('')}
         </div>
     `;
+    expandBottomSheet();
 
     document.querySelectorAll('.location-item').forEach(item => {
         item.addEventListener('click', function() {
@@ -542,6 +568,18 @@ let hotelMarkerGroup = L.markerClusterGroup({
     zoomToBoundsOnClick: false, disableClusteringAtZoom: 15, maxClusterRadius: 60
 });
 
+let allRestaurantMarkers = [];
+let allHotelMarkers = [];
+
+// 지역 필터를 맛집·숙소 레이어에도 같은 region 기준으로 적용한다 (검색은 관광지에만 적용)
+function applyRegionToExtraLayers(filter) {
+    [[restaurantMarkerGroup, allRestaurantMarkers], [hotelMarkerGroup, allHotelMarkers]].forEach(([group, all]) => {
+        group.clearLayers();
+        all.filter(m => filter === '전체' || m.locationData.region === filter)
+            .forEach(m => group.addLayer(m));
+    });
+}
+
 function initRestaurantMarkers() {
     if (typeof restaurants === 'undefined') return;
     restaurants.forEach(r => {
@@ -551,6 +589,7 @@ function initRestaurantMarkers() {
         marker.on('click', function() {
             showRestaurantDetails(r);
         });
+        allRestaurantMarkers.push(marker);
         restaurantMarkerGroup.addLayer(marker);
     });
 }
@@ -564,6 +603,7 @@ function initHotelMarkers() {
         marker.on('click', function() {
             showAccommodationDetails(a);
         });
+        allHotelMarkers.push(marker);
         hotelMarkerGroup.addLayer(marker);
     });
 }
@@ -589,6 +629,7 @@ function showRestaurantDetails(r) {
             <a href="https://www.google.com/maps/search/?api=1&query=${r.lat},${r.lng}" target="_blank" rel="noopener noreferrer" class="maps-link">📍 Google Maps에서 보기</a>
         </div>
     `;
+    expandBottomSheet();
 }
 
 function showAccommodationDetails(a) {
@@ -612,6 +653,7 @@ function showAccommodationDetails(a) {
             <a href="https://www.google.com/maps/search/?api=1&query=${a.lat},${a.lng}" target="_blank" rel="noopener noreferrer" class="maps-link">📍 Google Maps에서 보기</a>
         </div>
     `;
+    expandBottomSheet();
 }
 
 // Initialize extra layers
@@ -662,8 +704,9 @@ layerToggles.forEach(toggle => {
     let isDragging = false;
     let hasMoved = false; // 드래그였는지 단순 탭이었는지 구분
 
+    // style.css 의 바텀시트 구간(max-width: 1024px)과 같은 경계여야 한다
     function isMobile() {
-        return window.innerWidth <= 768;
+        return window.innerWidth <= 1024;
     }
 
     function currentTranslateY() {
@@ -682,6 +725,12 @@ layerToggles.forEach(toggle => {
         infoPanel.style.transform = 'translateY(0)';
         infoPanel.classList.remove('sheet-collapsed');
     }
+
+    expandBottomSheet = function() {
+        // 이전 목록의 스크롤 위치가 남으면 새 내용의 제목이 손잡이 아래로 가려진다
+        infoPanel.scrollTop = 0;
+        if (isMobile() && infoPanel.classList.contains('sheet-collapsed')) expand();
+    };
 
     handle.addEventListener('touchstart', function(e) {
         if (!isMobile()) return;

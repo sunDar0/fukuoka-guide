@@ -1,5 +1,5 @@
 // service worker
-const CACHE_NAME = 'fukuoka-guide-v3';
+const CACHE_NAME = 'fukuoka-guide-v4';
 
 const LOCAL_FILES = [
   'index.html',
@@ -26,7 +26,8 @@ const CDN_FILES = [
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => {
-      return cache.addAll(LOCAL_FILES).then(() => {
+      // cache: 'reload' bypasses the HTTP cache so a version bump picks up fresh files
+      return cache.addAll(LOCAL_FILES.map(url => new Request(url, { cache: 'reload' }))).then(() => {
         return Promise.allSettled(
           CDN_FILES.map(url => cache.add(url).catch(() => { }))
         );

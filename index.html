@@ -90,6 +90,36 @@
                     </div>
                 </div>
 
+                <!-- Transport Mode -->
+                <div class="mode-group" role="radiogroup" aria-labelledby="mode-label">
+                    <span class="counter-label" id="mode-label">
+                        <span class="form-label-icon">🚗</span> 이동 수단
+                    </span>
+                    <div class="mode-options">
+                        <label class="mode-option">
+                            <input type="radio" name="transport-mode" value="transit" checked>
+                            <span class="mode-option-box">
+                                <span class="mode-option-name">🚇 대중교통</span>
+                                <span class="mode-option-desc">지하철·버스·JR로 이동</span>
+                            </span>
+                        </label>
+                        <label class="mode-option">
+                            <input type="radio" name="transport-mode" value="car">
+                            <span class="mode-option-box">
+                                <span class="mode-option-name">🚗 렌터카</span>
+                                <span class="mode-option-desc">공항에서 빌려 공항에 반납</span>
+                            </span>
+                        </label>
+                        <label class="mode-option">
+                            <input type="radio" name="transport-mode" value="mixed">
+                            <span class="mode-option-box">
+                                <span class="mode-option-name">🔀 렌터카+대중교통</span>
+                                <span class="mode-option-desc">시내는 대중교통, 근교 가는 날만 렌터카</span>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+
                 <!-- Generate Button -->
                 <button type="button" id="generate-btn" class="generate-btn" disabled>
                     나만의 여행 가이드 만들기
@@ -119,13 +149,13 @@
             <!-- Section Navigation (sticky) -->
             <nav class="section-nav" id="section-nav">
                 <div class="section-nav-list">
-                    <a href="#info" class="section-nav-link">📋 핵심 정보</a>
-                    <a href="#itinerary" class="section-nav-link">🗓️ 전체 일정</a>
-                    <a href="#budget" class="section-nav-link">💰 예상 경비</a>
-                    <a href="#attractions" class="section-nav-link">📍 주요 명소</a>
-                    <a href="#food-guide" class="section-nav-link">🍜 맛집</a>
-                    <a href="#transport-guide" class="section-nav-link">🚃 교통</a>
-                    <a href="#accommodation-guide" class="section-nav-link">🏨 숙소</a>
+                    <a href="#info" class="section-nav-link"><span class="section-nav-icon">📋</span> <span class="section-nav-full">핵심 정보</span><span class="section-nav-short">정보</span></a>
+                    <a href="#itinerary" class="section-nav-link"><span class="section-nav-icon">🗓️</span> <span class="section-nav-full">전체 일정</span><span class="section-nav-short">일정</span></a>
+                    <a href="#budget" class="section-nav-link"><span class="section-nav-icon">💰</span> <span class="section-nav-full">예상 경비</span><span class="section-nav-short">경비</span></a>
+                    <a href="#attractions" class="section-nav-link"><span class="section-nav-icon">📍</span> <span class="section-nav-full">주요 명소</span><span class="section-nav-short">명소</span></a>
+                    <a href="#food-guide" class="section-nav-link"><span class="section-nav-icon">🍜</span> 맛집</a>
+                    <a href="#transport-guide" class="section-nav-link"><span class="section-nav-icon">🚃</span> 교통</a>
+                    <a href="#accommodation-guide" class="section-nav-link"><span class="section-nav-icon">🏨</span> 숙소</a>
                 </div>
             </nav>
 
