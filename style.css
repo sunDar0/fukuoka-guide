@@ -1749,6 +1749,23 @@ h1 {
     padding: var(--spacing-md);
   }
 
+  /* 폼이 첫 화면보다 길어 생성 버튼이 화면 밖에 있었다. 버튼을 화면 하단에 붙여 둔다.
+     overflow: hidden 은 sticky 를 막으므로, 상단 장식선 모서리는 자르되 sticky 는 막지 않는 clip 을 쓴다. */
+  .hero-section {
+    overflow: clip;
+  }
+
+  .generate-btn {
+    position: sticky;
+    bottom: calc(var(--spacing-sm) + env(safe-area-inset-bottom));
+    z-index: 5;
+  }
+
+  /* 뒤로 지나가는 폼 글자가 비치지 않도록 비활성 상태도 불투명하게 */
+  .generate-btn:disabled {
+    background: #4b5563;
+  }
+
   h1 {
     font-size: 1.75rem;
   }

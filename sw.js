@@ -1,5 +1,5 @@
 // service worker
-const CACHE_NAME = 'fukuoka-guide-v4';
+const CACHE_NAME = 'fukuoka-guide-v5';
 
 const LOCAL_FILES = [
   'index.html',
